@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+
+		<!-- Mavo -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.es5.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.min.css"
+		/>
+
+		<!-- Cloud Firestore plugin -->
+		<script src="../src/mavo-cloud-firestore.js"></script>
+
+		<title>To-Do List</title>
+	</head>
+	<body mv-app="todo" mv-storage="local" mv-mode="edit">
+		<header>
+			<h1>My tasks</h1>
+			<p>
+				<strong>[count(done)]</strong> done out of
+				<strong>[count(task)]</strong> total
+			</p>
+		</header>
+
+		<ul>
+			<li property="task" mv-multiple>
+				<label>
+					<input property="done" type="checkbox" />
+					<span property="taskTitle">Do stuff</span>
+				</label>
+			</li>
+			<button class="clear-completed" mv-action="delete(task where done)">
+				Clear Completed
+			</button>
+		</ul>
+	</body>
+</html>

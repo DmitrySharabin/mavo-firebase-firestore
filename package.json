@@ -1,0 +1,22 @@
+{
+	"name": "mavo-cloud-firestore",
+	"version": "0.1.0",
+	"description": "Cloud Firestore plugin for Mavo",
+	"repository": "https://github.com/DmitrySharabin/mavo-cloud-firestore.git",
+	"bugs": {
+		"url": "https://github.com/DmitrySharabin/mavo-cloud-firestore/issues"
+	},
+	"author": "Dmitry Sharabin <dmitrysharabin@gmail.com>",
+	"license": "MIT",
+	"browserslist": [
+		"last 4 versions",
+		"IE 11"
+	],
+	"devDependencies": {
+		"@babel/core": "^7.8.4",
+		"@babel/preset-env": "^7.8.4",
+		"gulp": "^4.0.2",
+		"gulp-babel": "^8.0.0",
+		"gulp-babel-minify": "^0.5.1"
+	}
+}
