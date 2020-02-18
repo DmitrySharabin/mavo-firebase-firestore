@@ -1,0 +1,111 @@
+body {
+	margin: 0 auto;
+	max-width: 58rem;
+	padding: 1rem;
+}
+body a {
+	text-decoration: none;
+	color: #aaa;
+}
+body header {
+	margin: 0;
+}
+body header h1 {
+	display: inline-block;
+	margin: 0;
+}
+body header h1 img {
+	max-width: 8em;
+}
+body > div {
+	display: flex;
+	flex-flow: row wrap;
+}
+body footer {
+	margin-top: 1em;
+	text-align: center;
+	font-weight: 300;
+	color: rgba(0, 0, 0, 0.6);
+}
+
+[property="painting"],
+.mv-add-painting {
+	display: inline-block;
+	vertical-align: top;
+	margin: 0.3rem;
+	position: relative;
+}
+[property="painting"] img,
+.mv-add-painting img {
+	display: block;
+	width: 13rem;
+	height: 13rem;
+	-o-object-fit: cover;
+	object-fit: cover;
+	background: #ddd;
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" stroke="black" stroke-opacity=".3">\a 			<line x2="100" y2="100" /><line x1="100" y2="100" /></svg>');
+}
+[property="painting"] p,
+.mv-add-painting p {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 0.6em;
+	margin: 0;
+	background: rgba(0, 0, 0, 0.5);
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	color: white;
+	transition: 0.2s bottom;
+}
+[property="painting"] p ::-webkit-input-placeholder,
+.mv-add-painting p ::-webkit-input-placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+[property="painting"] p ::-moz-placeholder,
+.mv-add-painting p ::-moz-placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+[property="painting"] p ::-ms-input-placeholder,
+.mv-add-painting p ::-ms-input-placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+[property="painting"] p ::placeholder,
+.mv-add-painting p ::placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+[property="painting"]:not([mv-mode="edit"]),
+.mv-add-painting:not([mv-mode="edit"]) {
+	overflow: hidden;
+}
+[property="painting"]:not([mv-mode="edit"]):not(:hover) p,
+.mv-add-painting:not([mv-mode="edit"]):not(:hover) p {
+	bottom: -6em;
+}
+
+.mv-add-painting {
+	width: 5.2em;
+	padding: 0.5em;
+	border: 3px dashed rgba(0, 0, 0, 0.4);
+	background: white;
+	color: rgba(0, 0, 0, 0.4);
+	text-align: center;
+	font: inherit;
+	font-size: 200%;
+	font-weight: bold;
+	width: 13rem;
+	min-height: 13rem;
+}
+.mv-add-painting:hover {
+	background: deeppink;
+	color: white;
+}
+
+@media (max-width: 600px) {
+	html.lite [property="painting"] img,
+	.mv-add-painting {
+		width: 10.5rem;
+		height: 10.5rem;
+	}
+}

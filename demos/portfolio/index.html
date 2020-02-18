@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Artist Portfolio</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="style.css" />
+
+		<!-- Mavo -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.es5.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.min.css"
+		/>
+
+		<!-- Cloud Firestore plugin -->
+		<script src="../../src/mavo-firestore.js"></script>
+	</head>
+	<body
+		mv-app="portfolio"
+		mv-storage="firestore"
+		mv-firestore-key="AIzaSyDMLdjpEI7iwVvHWlZGci0Pk51TChG0ADE"
+		mv-firestore-id="d12n-me"
+	>
+		<header>
+			<h1>
+				<a href="http://julesmuck.com"
+					><img
+						src="http://julesmuck.com/wp-content/uploads/2016/04/mucklogoBLCK.png"
+						alt="Jules Muck"
+						class="logo"
+				/></a>
+			</h1>
+		</header>
+
+		<div>
+			<a property="painting" typeof="Painting" mv-multiple mv-attribute="none">
+				<img property="image" />
+				<p
+					property="name"
+					mv-default="[readable(to(filename(image), '.'))]"
+				></p>
+			</a>
+		</div>
+
+		<footer>
+			All art belongs to the awesome
+			<a href="http://julesmuck.com">Jules Muck</a>, used here with permission.
+		</footer>
+	</body>
+</html>

@@ -166,3 +166,7 @@ li[property="task"] label {
 .clear-completed:hover {
 	opacity: 1;
 }
+
+[mv-app]:not([mv-mode="edit"]) .clear-completed {
+	display: none;
+}

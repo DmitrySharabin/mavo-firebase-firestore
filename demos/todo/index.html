@@ -13,11 +13,16 @@
 		/>
 
 		<!-- Cloud Firestore plugin -->
-		<script src="../src/mavo-cloud-firestore.js"></script>
+		<script src="../../src/mavo-firestore.js"></script>
 
 		<title>To-Do List</title>
 	</head>
-	<body mv-app="todo" mv-storage="local" mv-mode="edit">
+	<body
+		mv-app="todo"
+		mv-storage="firestore"
+		mv-firestore-key="AIzaSyDMLdjpEI7iwVvHWlZGci0Pk51TChG0ADE"
+		mv-firestore-id="d12n-me"
+	>
 		<header>
 			<h1>My tasks</h1>
 			<p>
@@ -33,7 +38,10 @@
 					<span property="taskTitle">Do stuff</span>
 				</label>
 			</li>
-			<button class="clear-completed" mv-action="delete(task where done)">
+			<button
+				class="clear-completed mv-logged-in"
+				mv-action="delete(task where done)"
+			>
 				Clear Completed
 			</button>
 		</ul>
