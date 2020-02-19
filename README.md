@@ -1,2 +1,3 @@
-# mavo-cloud-firestore
-Cloud Firestore plugin for Mavo
+# mavo-firebase-firestore
+
+Firebase backend plugin for Mavo

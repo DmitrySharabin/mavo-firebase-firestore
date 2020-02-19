@@ -2,7 +2,7 @@ Mavo.Backend.register(
 	$.Class({
 		extends: Mavo.Backend,
 
-		id: "Firestore", // an id for the backend
+		id: "Firebase", // an id for the backend
 
 		constructor: function(url, { mavo, format }) {
 			// Initialization code
@@ -24,10 +24,10 @@ Mavo.Backend.register(
 				$.load("https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js")
 			]).then(() => {
 				// FIREBASE API KEY
-				this.key = mavo.element.getAttribute("mv-firestore-key");
+				this.key = mavo.element.getAttribute("mv-firebase-key");
 
 				// CLOUD FIRESTORE PROJECT ID
-				this.projectId = mavo.element.getAttribute("mv-firestore-id");
+				this.projectId = mavo.element.getAttribute("mv-firebase-id");
 
 				// FIREBASE AUTH DOMAIN
 				this.domain = `${this.projectId}.firebaseapp.com`;
@@ -47,7 +47,7 @@ Mavo.Backend.register(
 					storageBucket: this.storageBucket
 				};
 				// Initialize Cloud Firestore through Firebase
-				this.app = firebase.initializeApp(config);
+				this.app = firebase.initializeApp(config, mavo.id);
 				this.db = firebase.firestore().collection("mavo-apps");
 
 				// Get a reference to the storage service, which is used to create references in the storage bucket,
@@ -57,7 +57,7 @@ Mavo.Backend.register(
 				// Get realtime updates
 				this.unsubscribe = this.db.doc(this.fileName).onSnapshot(
 					doc => mavo.render(doc.data()),
-					error => mavo.error(`Firestore: ${error.message}`)
+					error => mavo.error(`Firebase: ${error.message}`)
 				);
 
 				// TODO: Find a place in the code where to unsubscribe
@@ -121,7 +121,7 @@ Mavo.Backend.register(
 			return this.ready.then(() =>
 				this.get(this.fileName)
 					.then(doc => Promise.resolve(doc.data() || {}))
-					.catch(error => this.mavo.error(`Firestore: ${error.message}`))
+					.catch(error => this.mavo.error(`Firebase: ${error.message}`))
 			);
 		},
 
@@ -154,7 +154,7 @@ Mavo.Backend.register(
 				.doc(this.fileName)
 				.set(data)
 				.then(() => Promise.resolve())
-				.catch(error => this.mavo.error(`Firestore: ${error.message}`));
+				.catch(error => this.mavo.error(`Firebase: ${error.message}`));
 		},
 
 		// Takes care of authentication. If passive is true, only checks if
@@ -179,7 +179,7 @@ Mavo.Backend.register(
 							.auth()
 							.signInWithPopup(provider)
 							.catch(error => {
-								this.mavo.error(`Firestore: ${error.message}`);
+								this.mavo.error(`Firebase: ${error.message}`);
 								reject(error);
 							});
 					}
@@ -193,7 +193,7 @@ Mavo.Backend.register(
 				.auth()
 				.signOut()
 				.catch(error => {
-					this.mavo.error(`Firestore: ${error.message}`);
+					this.mavo.error(`Firebase: ${error.message}`);
 				});
 		},
 
@@ -202,7 +202,7 @@ Mavo.Backend.register(
 			// value: The mv-storage/mv-source/mv-init value
 			test: function(value) {
 				// Returns true if this value applies to this backend
-				return /^firestore(\/)?/.test(value.trim().toLowerCase());
+				return /^firebase(\/)?/.test(value.trim().toLowerCase());
 			}
 		}
 	})

@@ -1,10 +1,10 @@
 {
-	"name": "mavo-cloud-firestore",
+	"name": "mavo-firebase-firestore",
 	"version": "0.1.0",
-	"description": "Cloud Firestore plugin for Mavo",
-	"repository": "https://github.com/DmitrySharabin/mavo-cloud-firestore.git",
+	"description": "Firebase backend plugin for Mavo",
+	"repository": "https://github.com/DmitrySharabin/mavo-firebase-firestore.git",
 	"bugs": {
-		"url": "https://github.com/DmitrySharabin/mavo-cloud-firestore/issues"
+		"url": "https://github.com/DmitrySharabin/mavo-firebase-firestore/issues"
 	},
 	"author": "Dmitry Sharabin <dmitrysharabin@gmail.com>",
 	"license": "MIT",
