@@ -64,14 +64,24 @@
 							// and create a storage reference from the storage service
 							this.storageBucketRef = firebase.storage().ref();
 
-							// Get realtime updates
-							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
-								doc => mavo.render(doc.data()),
-								error => mavo.error(`Firebase: ${error.message}`)
-							);
+							if (mavo.element.hasAttribute("mv-firebase-realtime")) {
+								// Get realtime updates
+								this.unsubscribe = this.db.doc(this.filename).onSnapshot(
+									doc => {
+										const source = doc.metadata.hasPendingWrites
+											? "Local"
+											: "Server";
 
-							// TODO: Find a place in the code where to unsubscribe
-							// this.unsubscribe();
+										// TODO: There's the problem of what to do when local edits conflict with pulled data
+										// if (source === "Server" && ...) {...}
+										mavo.render(doc.data());
+									},
+									error => mavo.error(`Firebase: ${error.message}`)
+								);
+							} else if (this.unsubscribe) {
+								// Stop listening to changes
+								this.unsubscribe();
+							}
 
 							// Set an authentication state observer and get user data
 							firebase.auth().onAuthStateChanged(user => {
