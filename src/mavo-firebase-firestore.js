@@ -1,9 +1,9 @@
-(function($, $$) {
+(function($) {
 	const _ = Mavo.Backend.register(
 		$.Class({
 			extends: Mavo.Backend,
 
-			id: "Firebase", // an id for the backend
+			id: "Firebase",
 
 			constructor: function(url, { mavo, format }) {
 				// Initialization code
@@ -17,6 +17,7 @@
 					}
 				};
 
+				// Which backend's features should we support?
 				template = mavo.element.getAttribute("mv-firebase") || "";
 
 				this.features = $.extend(
@@ -54,10 +55,7 @@
 								"https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"
 							)
 						]).then(() => {
-							/**
-							 * Get all the config info from the url parameter and the corresponding attribute
-							 */
-
+							// Get all the config info from the url parameter and the corresponding attribute
 							$.extend(this, _.parseURL(url, this.defaults));
 
 							// The app's Firebase configuration
@@ -79,12 +77,6 @@
 
 							this.db = firebase.firestore().collection("mavo-apps");
 
-							if (this.features.storage) {
-								// Get a reference to the storage service, which is used to create references in the storage bucket,
-								// and create a storage reference from the storage service
-								this.storageBucketRef = firebase.storage().ref();
-							}
-
 							if (mavo.element.hasAttribute("mv-firebase-realtime")) {
 								// Get realtime updates
 								this.unsubscribe = this.db.doc(this.filename).onSnapshot(
@@ -102,6 +94,12 @@
 							} else if (this.unsubscribe) {
 								// Stop listening to changes
 								this.unsubscribe();
+							}
+
+							if (this.features.storage) {
+								// Get a reference to the storage service, which is used to create references in the storage bucket,
+								// and create a storage reference from the storage service
+								this.storageBucketRef = firebase.storage().ref();
 							}
 
 							if (this.features.auth) {
@@ -149,18 +147,11 @@
 				$.extend(this, _.parseURL(url, this.defaults));
 			},
 
-			// Low-level functions for reading data. You don’t need to implement this
-			// if the mv-storage/mv-source value is a URL and reading the data is just
-			// a GET request to that URL.
 			get: function(url) {
-				// Should return a promise that resolves to the data as a string or object
 				return this.db.doc(url).get();
 			},
 
-			// High level function for reading data. Calls this.get().
-			// You rarely need to override this.
 			load: function() {
-				// Should return a promise that resolves to the data as an object
 				return this.ready.then(() =>
 					this.get(this.filename)
 						.then(doc => Promise.resolve(doc.data() || {}))
@@ -168,31 +159,30 @@
 				);
 			},
 
-			// Low-level saving code.
-			// serialized: Data serialized according to this.format
-			// path: Path to store data
-			// o: Arbitrary options
+			/**
+			 * Low-level saving code
+			 * @param {*} serialized Data serialized according to this.format
+			 * @param {*} path Path to store data
+			 * @param {*} o Arbitrary options
+			 */
 			put: function(serialized, path = this.path, o = {}) {
-				// Returns promise
 				return this.storageBucketRef
 					.child(path)
 					.put(serialized)
 					.then(snapshot => snapshot.ref.getDownloadURL());
 			},
 
-			// If your backend supports uploads, this is mandatory.
-			// file: File object to be uploaded
-			// path: relative path to store uploads (e.g. "images")
+			/**
+			 * Upload code
+			 * @param {*} file File object to be uploaded
+			 * @param {*} path Relative path to store uploads (e.g. "images")
+			 */
 			upload: function(file, path) {
-				// Upload code. Should call this.put()
 				path = `${this.mavo.id}/${path}`;
 				return this.put(file, path).then(downloadURL => downloadURL);
 			},
 
-			// High level function for storing data.
-			// You rarely need to override this, except to avoid serialization.
 			store: function(data, { path, format = this.format } = {}) {
-				// Should return a promise that resolves when the data is saved successfully
 				return this.db
 					.doc(this.filename)
 					.set(data)
@@ -201,12 +191,8 @@
 			},
 
 			// Takes care of authentication. If passive is true, only checks if
-			// the user is already logged in, but does not present any login UI.
-			// Typically, you’d call this.login(true) in the constructor
+			// the user is already logged in, but does not present any login UI
 			login: function(passive) {
-				// Typically, you’d check if a user is already authenticated
-				// and return Promise.resolve() if so.
-				// Returns promise that resolves when the user has successfully authenticated
 				return this.ready.then(() => {
 					if (this.user) {
 						return Promise.resolve(this.user);
@@ -241,16 +227,14 @@
 			},
 
 			static: {
-				// Mandatory and very important! This determines when your backend is used.
+				// Mandatory and very important! This determines when the backend is used
 				// value: The mv-storage/mv-source/mv-init value
 				test: function(value) {
 					// Returns true if this value applies to this backend
 					return /^https:\/\/.*\.firebaseio\.com(\/)?/.test(value.trim());
 				},
 
-				/**
-				 * Parse the mv-storage/mv-source/mv-init value, return Firebase project id, filename
-				 */
+				// Parse the mv-storage/mv-source/mv-init value, return Firebase project id, filename
 				parseURL: function(source, defaults = {}) {
 					const ret = {};
 
@@ -303,4 +287,4 @@
 			}
 		})
 	);
-})(Bliss, Bliss.$);
+})(Bliss);
