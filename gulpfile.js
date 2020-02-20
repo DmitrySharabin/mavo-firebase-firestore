@@ -3,7 +3,7 @@ const babel = require("gulp-babel");
 const minify = require("gulp-babel-minify");
 
 exports.default = () => {
-	return src("src/mavo-cloud-firestore.js")
+	return src("src/mavo-firebase-firestore.js")
 		.pipe(
 			babel({
 				presets: [
