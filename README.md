@@ -146,7 +146,7 @@ You must specify **Project support email** by selecting it from the list. You ca
 
 To use Firebase Authentication in a web app, you must whitelist the domains that the Firebase Authentication servers can redirect to after signing in a user.
 
-By default, **localhost** and your Firebase project's hosting domain are whitelisted. You must whitelist the full domain names of any other of your web app's hosts. **Note**: whitelisting a domain allows for requests from any URL and port of that domain.
+By default, **localhost** and your Firebase project's hosting domain are whitelisted. You must whitelist the full domain names of any other of your Mavo app's hosts. **Note**: whitelisting a domain allows for requests from any URL and port of that domain.
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Authentication** section.
 2. On the **Sign-in method** tab, in the **Authorized domains** section, click **Add domain**.
