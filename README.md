@@ -525,7 +525,7 @@ The corresponding security rules could look like that:
 
 #### Cloud Firestore
 
-1. Allow read/write access on all documents to any authenticated user:
+1. Allow read/write access on your app's data to any authenticated user:
 
 ```
 rules_version = '2';
@@ -538,7 +538,7 @@ service cloud.firestore {
 }
 ```
 
-2. Allow public read/write access on all documents:
+2. Allow public read/write access on your app's data:
 
 ```
 rules_version = '2';
