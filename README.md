@@ -613,4 +613,4 @@ service firebase.storage {
 }
 ```
 
-**Warning**: These rules are applied only for the `myAwesomeApp` app and its data. If you use them as is data and files of other apps that use the same Firebase project become inaccessible. So what to do? Save some patience and wait a bit for the [security rules generator]() app. 😉
+**Warning**: These rules are applied only to the `myAwesomeApp` app and its data. If you use them as is data and files of other apps that use the same Firebase project become inaccessible. So what to do? Save some patience and wait a bit for the [security rules generator]() app. 😉
