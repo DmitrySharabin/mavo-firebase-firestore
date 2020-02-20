@@ -223,7 +223,7 @@ By default, the **Firebase** backend supports authentication (`auth`) and storin
 ```markup
 <main
     mv-app="myAwesomeApp"
-    mv-plugins="mv-firebase-firestore"
+    mv-plugins="firebase-firestore"
     mv-storage="https://mavo-demos.firebaseio.com/todo"
     mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
     mv-firebase="no-storage">
