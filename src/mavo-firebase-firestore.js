@@ -11,11 +11,15 @@
 
 				this.defaults = {
 					filename: mavo.id,
+					storageName:
+						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
 					features: {
 						auth: true,
 						storage: true
 					}
 				};
+
+				$.extend(this, this.defaults);
 
 				// Which backend's features should we support?
 				template = mavo.element.getAttribute("mv-firebase") || "";
@@ -178,7 +182,7 @@
 			 * @param {*} path Relative path to store uploads (e.g. "images")
 			 */
 			upload: function(file, path) {
-				path = `${this.mavo.id}/${path}`;
+				path = `${this.storageName}/${path}`;
 				return this.put(file, path).then(downloadURL => downloadURL);
 			},
 
