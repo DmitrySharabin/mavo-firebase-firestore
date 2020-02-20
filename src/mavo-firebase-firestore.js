@@ -24,10 +24,7 @@
 				// Which backend's features should we support?
 				template = mavo.element.getAttribute("mv-firebase") || "";
 
-				this.features = $.extend(
-					{},
-					_.getFeatures(template, this.defaults.features)
-				);
+				this.features = _.getFeatures(template, this.features);
 
 				if (this.features.auth) {
 					this.permissions.on("login");
@@ -261,7 +258,7 @@
 					const all = Object.keys(defaults);
 
 					if (template && (template = template.trim())) {
-						const relative = /^with\s|\b(yes|no)-\w+\b/.test(template);
+						const relative = /^with\s|\bno-\w+\b/.test(template);
 						let ids = template.split(/\s+/);
 
 						// Drop duplicates (last one wins)
