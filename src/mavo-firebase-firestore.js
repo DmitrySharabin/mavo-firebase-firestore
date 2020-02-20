@@ -234,7 +234,7 @@
 					return /^https:\/\/.*\.firebaseio\.com(\/)?/.test(value.trim());
 				},
 
-				// Parse the mv-storage/mv-source/mv-init value, return Firebase project id, filename
+				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, filename
 				parseURL: function(source, defaults = {}) {
 					const ret = {};
 
