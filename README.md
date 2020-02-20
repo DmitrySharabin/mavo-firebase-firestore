@@ -99,7 +99,7 @@ To use **Firebase** backend, follow the setup instructions below.
 
 3. (_Optional_) Click **Switch to native mode**.
 
-![](/images/step_4_5.png)
+![](/images/step_4_3.png)
 
 4. (_Optional_) Click **Switch modes** and then click **Got it**.
 
