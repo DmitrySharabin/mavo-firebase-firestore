@@ -111,8 +111,7 @@
 										this.user = {
 											username: user.email,
 											name: user.displayName,
-											avatar: user.photoURL,
-											...user
+											avatar: user.photoURL
 										};
 
 										$.fire(mavo.element, "mv-login", { backend: this });
