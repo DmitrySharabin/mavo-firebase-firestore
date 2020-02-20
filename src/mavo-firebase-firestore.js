@@ -7,18 +7,35 @@
 
 			constructor: function(url, { mavo, format }) {
 				// Initialization code
-				this.permissions.on(["read", "login"]);
+				this.permissions.on("read");
 
 				this.defaults = {
-					filename: mavo.id
+					filename: mavo.id,
+					features: {
+						auth: true,
+						storage: true
+					}
 				};
+
+				template = mavo.element.getAttribute("mv-firebase") || "";
+
+				this.features = $.extend(
+					{},
+					_.getFeatures(template, this.defaults.features)
+				);
+
+				if (this.features.auth) {
+					this.permissions.on("login");
+				} else {
+					this.permissions.on(["edit", "add", "delete", "save"]);
+				}
 
 				this.ready =
 					// First of all, we need to download the Firebase core file
 					$.load(
 						"https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"
 					).then(() => {
-						// Then download the other parts
+						// Then download the other parts if needed
 						return Promise.all([
 							// Cloud Firestore
 							$.load(
@@ -26,12 +43,14 @@
 							),
 
 							// Cloud Storage
-							$.load(
+							$.include(
+								!this.features.storage,
 								"https://www.gstatic.com/firebasejs/7.8.2/firebase-storage.js"
 							),
 
 							// Authentication
-							$.load(
+							$.include(
+								!this.features.auth,
 								"https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"
 							)
 						]).then(() => {
@@ -60,9 +79,11 @@
 
 							this.db = firebase.firestore().collection("mavo-apps");
 
-							// Get a reference to the storage service, which is used to create references in the storage bucket,
-							// and create a storage reference from the storage service
-							this.storageBucketRef = firebase.storage().ref();
+							if (this.features.storage) {
+								// Get a reference to the storage service, which is used to create references in the storage bucket,
+								// and create a storage reference from the storage service
+								this.storageBucketRef = firebase.storage().ref();
+							}
 
 							if (mavo.element.hasAttribute("mv-firebase-realtime")) {
 								// Get realtime updates
@@ -83,39 +104,43 @@
 								this.unsubscribe();
 							}
 
-							// Set an authentication state observer and get user data
-							firebase.auth().onAuthStateChanged(user => {
-								if (user) {
-									// User is signed in
-									this.user = {
-										username: user.email,
-										name: user.displayName,
-										avatar: user.photoURL,
-										...user
-									};
+							if (this.features.auth) {
+								// Set an authentication state observer and get user data
+								firebase.auth().onAuthStateChanged(user => {
+									if (user) {
+										// User is signed in
+										this.user = {
+											username: user.email,
+											name: user.displayName,
+											avatar: user.photoURL,
+											...user
+										};
 
-									$.fire(mavo.element, "mv-login", { backend: this });
+										$.fire(mavo.element, "mv-login", { backend: this });
 
-									this.permissions
-										.off("login")
-										.on(["edit", "add", "delete", "save", "logout"]);
-								} else {
-									// User is signed out
-									this.user = null;
+										this.permissions
+											.off("login")
+											.on(["edit", "add", "delete", "save", "logout"]);
+									} else {
+										// User is signed out
+										this.user = null;
 
-									$.fire(mavo.element, "mv-logout", { backend: this });
+										$.fire(mavo.element, "mv-logout", { backend: this });
 
-									this.permissions
-										.off(["edit", "add", "delete", "save", "logout"])
-										.on("login");
-								}
-							});
+										this.permissions
+											.off(["edit", "add", "delete", "save", "logout"])
+											.on("login");
+									}
+								});
+							}
 
 							return Promise.resolve();
 						});
 					});
 
-				this.login(true);
+				if (this.features.auth) {
+					this.login(true);
+				}
 			},
 
 			update: function(url, o) {
@@ -235,6 +260,44 @@
 					ret.projectId = url.hostname.split(".").shift();
 					ret.filename = url.pathname.slice(1) || defaults.filename;
 
+					return ret;
+				},
+
+				/**
+				 * Parse the list of features the Firebase backend should support
+				 * @param {*} template The value of the mv-firebase attribute or an empty string
+				 */
+				getFeatures: function(template, defaults) {
+					const ret = defaults;
+
+					const all = Object.keys(defaults);
+
+					if (template && (template = template.trim())) {
+						const relative = /^with\s|\b(yes|no)-\w+\b/.test(template);
+						let ids = template.split(/\s+/);
+
+						// Drop duplicates (last one wins)
+						ids = Mavo.Functions.unique(ids.reverse()).reverse();
+
+						if (relative) {
+							ids = all.filter(id => {
+								const positive = ids.lastIndexOf(id);
+								const negative = ids.lastIndexOf("no-" + id);
+								const keep = positive > Math.max(-1, negative);
+								const drop = negative > Math.max(-1, positive);
+
+								return keep || !drop;
+							});
+						}
+
+						all.forEach(id =>
+							ids.includes(id) ? (ret[id] = true) : (ret[id] = false)
+						);
+
+						return ret;
+					}
+
+					// No template, return default set
 					return ret;
 				}
 			}
