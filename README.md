@@ -109,7 +109,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 5. (_Optional_) Go back to the **Database** section of the [Firebase console](https://console.firebase.google.com/).
 
-   **Note**: To see the changes you, may need to refresh the browser window.
+   **Note**: To see the changes, you may need to refresh the browser window.
 
 ![](/images/step_4_5.png)
 
