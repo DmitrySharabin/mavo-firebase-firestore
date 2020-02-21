@@ -91,7 +91,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 
-![](/images/step_4_5.png)
+![](/images/step_4_1.png)
 
 2. (_Optional_) Click **Go to Cloud Platform**.
 
