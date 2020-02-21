@@ -113,14 +113,18 @@
 										name: user.displayName,
 										avatar: user.photoURL
 									};
+
 									$.fire(mavo.element, "mv-login", { backend: this });
+
 									this.permissions
 										.off("login")
 										.on(["edit", "add", "delete", "save", "logout"]);
 								} else {
 									// User is signed out
 									this.user = null;
+
 									$.fire(mavo.element, "mv-logout", { backend: this });
+
 									this.permissions
 										.off(["edit", "add", "delete", "save", "logout"])
 										.on("login");
@@ -174,6 +178,7 @@
 			 */
 			upload: function(file, path) {
 				path = `${this.storageName}/${path}`;
+
 				return this.put(file, path).then(downloadURL => downloadURL);
 			},
 
