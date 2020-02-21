@@ -36,9 +36,9 @@
 					// First of all, we need to download the Firebase core file
 					$.load(
 						"https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"
-					).then(() => {
+					).then(async () => {
 						// Then download the other parts if needed
-						return Promise.all([
+						await Promise.all([
 							// Cloud Firestore
 							$.load(
 								"https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"
@@ -55,85 +55,80 @@
 								!this.features.auth,
 								"https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"
 							)
-						]).then(() => {
-							// Get all the config info from the url parameter and the corresponding attribute
-							$.extend(this, _.parseURL(url, this.defaults));
+						]);
 
-							// The app's Firebase configuration
-							const config = {
-								apiKey: mavo.element.getAttribute("mv-firebase-key"), // FIREBASE API KEY
-								databaseURL: this.databaseURL, // DATABASE URL
-								projectId: this.projectId, // CLOUD FIRESTORE PROJECT ID
-								authDomain: `${this.projectId}.firebaseapp.com`, // FIREBASE AUTH DOMAIN
-								storageBucket: `${this.projectId}.appspot.com` // STORAGE BUCKET
-							};
+						// Get all the config info from the url parameter and the corresponding attribute
+						$.extend(this, _.parseURL(url, this.defaults));
 
-							// Initialize Cloud Firestore through Firebase
-							// Support using multiple apps on the same page
-							if (!firebase.apps.length) {
-								this.app = firebase.initializeApp(config);
-							} else {
-								this.app = firebase.initializeApp(config, mavo.id);
-							}
+						// The app's Firebase configuration
+						const config = {
+							apiKey: mavo.element.getAttribute("mv-firebase-key"),
+							databaseURL: this.databaseURL,
+							projectId: this.projectId,
+							authDomain: `${this.projectId}.firebaseapp.com`,
+							storageBucket: `${this.projectId}.appspot.com`
+						};
 
-							this.db = firebase.firestore().collection("mavo-apps");
+						// Initialize Cloud Firestore through Firebase
+						// Support using multiple apps on the same page
+						if (!firebase.apps.length) {
+							this.app = firebase.initializeApp(config);
+						} else {
+							this.app = firebase.initializeApp(config, mavo.id);
+						}
 
-							if (mavo.element.hasAttribute("mv-firebase-realtime")) {
-								// Get realtime updates
-								this.unsubscribe = this.db.doc(this.filename).onSnapshot(
-									doc => {
-										const source = doc.metadata.hasPendingWrites
-											? "Local"
-											: "Server";
+						this.db = firebase.firestore().collection("mavo-apps");
 
-										// TODO: There's the problem of what to do when local edits conflict with pulled data
-										// if (source === "Server" && ...) {...}
-										mavo.render(doc.data());
-									},
-									error => mavo.error(`Firebase: ${error.message}`)
-								);
-							} else if (this.unsubscribe) {
-								// Stop listening to changes
-								this.unsubscribe();
-							}
+						if (mavo.element.hasAttribute("mv-firebase-realtime")) {
+							// Get realtime updates
+							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
+								doc => {
+									const source = doc.metadata.hasPendingWrites
+										? "Local"
+										: "Server";
+									// TODO: There's the problem of what to do when local edits conflict with pulled data
+									// if (source === "Server" && ...) {...}
+									mavo.render(doc.data());
+								},
+								error => mavo.error(`Firebase: ${error.message}`)
+							);
+						} else if (this.unsubscribe) {
+							// Stop listening to changes
+							this.unsubscribe();
+						}
 
-							if (this.features.storage) {
-								// Get a reference to the storage service, which is used to create references in the storage bucket,
-								// and create a storage reference from the storage service
-								this.storageBucketRef = firebase.storage().ref();
-							}
+						if (this.features.storage) {
+							// Get a reference to the storage service, which is used to create references in the storage bucket,
+							// and create a storage reference from the storage service
+							this.storageBucketRef = firebase.storage().ref();
+						}
 
-							if (this.features.auth) {
-								// Set an authentication state observer and get user data
-								firebase.auth().onAuthStateChanged(user => {
-									if (user) {
-										// User is signed in
-										this.user = {
-											username: user.email,
-											name: user.displayName,
-											avatar: user.photoURL
-										};
+						if (this.features.auth) {
+							// Set an authentication state observer and get user data
+							firebase.auth().onAuthStateChanged(user => {
+								if (user) {
+									// User is signed in
+									this.user = {
+										username: user.email,
+										name: user.displayName,
+										avatar: user.photoURL
+									};
+									$.fire(mavo.element, "mv-login", { backend: this });
+									this.permissions
+										.off("login")
+										.on(["edit", "add", "delete", "save", "logout"]);
+								} else {
+									// User is signed out
+									this.user = null;
+									$.fire(mavo.element, "mv-logout", { backend: this });
+									this.permissions
+										.off(["edit", "add", "delete", "save", "logout"])
+										.on("login");
+								}
+							});
+						}
 
-										$.fire(mavo.element, "mv-login", { backend: this });
-
-										this.permissions
-											.off("login")
-											.on(["edit", "add", "delete", "save", "logout"]);
-									} else {
-										// User is signed out
-										this.user = null;
-
-										$.fire(mavo.element, "mv-logout", { backend: this });
-
-										this.permissions
-											.off(["edit", "add", "delete", "save", "logout"])
-											.on("login");
-									}
-								});
-							}
-
-							return Promise.resolve();
-						});
+						return Promise.resolve();
 					});
 
 				if (this.features.auth) {
