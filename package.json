@@ -17,6 +17,7 @@
 		"@babel/preset-env": "^7.8.4",
 		"gulp": "^4.0.2",
 		"gulp-babel": "^8.0.0",
-		"gulp-babel-minify": "^0.5.1"
+		"gulp-babel-minify": "^0.5.1",
+		"gulp-inject-version": "^1.0.1"
 	}
 }

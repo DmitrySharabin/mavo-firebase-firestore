@@ -1,3 +1,8 @@
+/**
+ * Firebase backend plugin for Mavo
+ * @author Dmitry Sharabin and contributors
+ * @version %%VERSION%%
+ */
 (function($) {
 	const _ = Mavo.Backend.register(
 		$.Class({

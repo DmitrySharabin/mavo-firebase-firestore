@@ -1,6 +1,11 @@
 const { src, dest } = require("gulp");
 const babel = require("gulp-babel");
 const minify = require("gulp-babel-minify");
+const injectVersion = require("gulp-inject-version");
+
+const versionOptions = {
+	replace: /%%VERSION%%/g
+};
 
 exports.default = () => {
 	return src("src/mavo-firebase-firestore.js")
