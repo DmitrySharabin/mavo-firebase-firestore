@@ -208,7 +208,7 @@ Set the following attributes on the Mavo root element (the one with the `mv-app`
 
 ### Customization
 
-By default, the **Firebase** backend stores data in a file which name matches the name of a Mavo app. You can change it by specifying the name of the file after the `databaseURL`. The `databaseURL` and the filename must be divided by forward slash, like so: `mv-storage="databaseURL/filename"` (see [example](#demo) below).
+By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection and the name of the corresponding file after the `databaseURL`. The `databaseURL`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="databaseURL/collectionName/filename"`. You can also leave the collection name default and specify only the file name, like so: `mv-storage="databaseURL/filename"` (see [example](#demo) below).
 
 Need to get realtime updates? Add the `mv-firebase-realtime` attribute to the Mavo root element.
 
@@ -517,7 +517,7 @@ service firebase.storage {
 
 ### App-specific rules
 
-Suppose your Mavo app has the name `myAwesomeApp`. By default, the **Firebase** backend stores its data in files and folders matching the app's name. Keep in mind that the app data is stored in the file inside the collection `mavo-apps` (you can't change the name of this collection).
+Suppose your Mavo app has the name `myAwesomeApp`. By default, the **Firebase** backend stores its data in files and folders matching the app's name. Keep in mind that the app data is stored in the file inside the `mavo-apps` collection.
 
 ![Default collection "mavo-apps"](/images/collection_mavo_apps.png)
 

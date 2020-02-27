@@ -15,6 +15,7 @@
 				this.permissions.on("read");
 
 				this.defaults = {
+					collectionName: "mavo-apps",
 					filename: mavo.id,
 					storageName:
 						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
@@ -82,7 +83,7 @@
 							this.app = firebase.initializeApp(config, mavo.id);
 						}
 
-						this.db = firebase.firestore().collection("mavo-apps");
+						this.db = firebase.firestore().collection(this.collectionName);
 
 						if (mavo.element.hasAttribute("mv-firebase-realtime")) {
 							// Get realtime updates
@@ -239,7 +240,7 @@
 					return /^https:\/\/.*\.firebaseio\.com(\/)?/.test(value.trim());
 				},
 
-				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, filename
+				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, collection name, filename
 				parseURL: function(source, defaults = {}) {
 					const ret = {};
 
@@ -247,7 +248,16 @@
 
 					ret.databaseURL = url.hostname;
 					ret.projectId = url.hostname.split(".").shift();
-					ret.filename = url.pathname.slice(1) || defaults.filename;
+
+					const path = url.pathname.slice(1);
+					if (path.indexOf("/") > -1) {
+						const parts = path.split("/");
+
+						[ret.collectionName, ret.filename] = parts;
+					} else {
+						ret.collectionName = defaults.collectionName;
+						ret.filename = path || defaults.filename;
+					}
 
 					return ret;
 				},
