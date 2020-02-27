@@ -35,7 +35,7 @@
 				if (this.features.auth) {
 					this.permissions.on("login");
 				} else {
-					this.permissions.on(["edit", "add", "delete", "save"]);
+					this.permissions.on(["edit", "save"]);
 				}
 
 				this.ready =
@@ -122,9 +122,7 @@
 
 									$.fire(mavo.element, "mv-login", { backend: this });
 
-									this.permissions
-										.off("login")
-										.on(["edit", "add", "delete", "save", "logout"]);
+									this.permissions.off("login").on(["edit", "save", "logout"]);
 								} else {
 									// User is signed out
 									this.user = null;
