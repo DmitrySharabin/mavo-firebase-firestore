@@ -199,7 +199,7 @@
 			login: function(passive) {
 				return this.ready.then(() => {
 					if (this.user) {
-						return Promise.resolve(this.user);
+						return Promise.resolve();
 					}
 
 					return new Promise((resolve, reject) => {
