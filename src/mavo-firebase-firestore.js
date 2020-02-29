@@ -83,7 +83,7 @@
 							this.app = firebase.initializeApp(config, mavo.id);
 						}
 
-						this.db = firebase.firestore().collection(this.collectionName);
+						this.db = this.app.firestore().collection(this.collectionName);
 
 						if (mavo.element.hasAttribute("mv-firebase-realtime")) {
 							// Get realtime updates
@@ -106,12 +106,12 @@
 						if (this.features.storage) {
 							// Get a reference to the storage service, which is used to create references in the storage bucket,
 							// and create a storage reference from the storage service
-							this.storageBucketRef = firebase.storage().ref();
+							this.storageBucketRef = this.app.storage().ref();
 						}
 
 						if (this.features.auth) {
 							// Set an authentication state observer and get user data
-							firebase.auth().onAuthStateChanged(user => {
+							this.app.auth().onAuthStateChanged(user => {
 								if (user) {
 									// User is signed in
 									this.user = {
