@@ -63,8 +63,8 @@
 							)
 						]);
 
-						// Get all the config info from the url parameter and the corresponding attribute
-						$.extend(this, _.parseURL(url, this.defaults));
+						// Get all the config info from the raw URL (attribute value) and the corresponding attribute
+						$.extend(this, _.parseURL(this.source, this.defaults));
 
 						// The app's Firebase configuration
 						const config = {
@@ -147,7 +147,7 @@
 			update: function(url, o) {
 				this.super.update.call(this, url, o);
 
-				$.extend(this, _.parseURL(url, this.defaults));
+				$.extend(this, _.parseURL(this.source, this.defaults));
 			},
 
 			get: function(url) {
