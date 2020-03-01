@@ -117,7 +117,8 @@
 									this.user = {
 										username: user.email,
 										name: user.displayName,
-										avatar: user.photoURL
+										avatar: user.photoURL,
+										user // raw user object
 									};
 
 									$.fire(mavo.element, "mv-login", { backend: this });
@@ -207,6 +208,14 @@
 							resolve(this.user);
 						} else {
 							const provider = new firebase.auth.GoogleAuthProvider();
+
+							// Specify additional OAuth 2.0 scopes that we need to request to access Google APIs
+							provider.addScope(
+								"https://www.googleapis.com/auth/cloud-platform"
+							);
+
+							// Apply the default browser preference
+							firebase.auth().useDeviceLanguage();
 
 							this.app
 								.auth()
