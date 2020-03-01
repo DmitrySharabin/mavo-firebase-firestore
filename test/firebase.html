@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Firebase Tests</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.min.css"
+		/>
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.min.js"></script>
+		<script src="test.js"></script>
+		<script src="../src/mavo-firebase-firestore.js"></script>
+		<style>
+			[data-test^="test"] td + td {
+				white-space: pre-line;
+			}
+
+			[data-test^="test"] td:first-of-type,
+			[data-test^="test"] th:first-of-type {
+				word-wrap: break-word;
+				flex: none;
+				width: 20%;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Firebase Tests</h1>
+
+		<section>
+			<h1>parseURL</h1>
+
+			<table class="reftest" data-test="testParseURL" data-columns="3">
+				<tr>
+					<td>https://mavo-demos.firebaseio.com</td>
+					<td>
+						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
+						collectionName: "mavo-apps", filename: "countries" }
+					</td>
+				</tr>
+
+				<tr>
+					<td>https://d12n.firebaseio.com</td>
+					<td>
+						{ databaseURL: "d12n.firebaseio.com", projectId: "d12n",
+						collectionName: "mavo-apps", filename: "countries" }
+					</td>
+				</tr>
+
+				<tr>
+					<td>https://mavo-demos.firebaseio.com/people</td>
+					<td>
+						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
+						collectionName: "mavo-apps", filename: "people" }
+					</td>
+				</tr>
+
+				<tr>
+					<td>https://mavo-demos.firebaseio.com/mv-app/people</td>
+					<td>
+						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
+						collectionName: "mv-app", filename: "people" }
+					</td>
+				</tr>
+			</table>
+
+			<script>
+				function testParseURL(test, result, expected) {
+					try {
+						const r = Mavo.Backend.Firebase.parseURL(test.textContent, {
+							collectionName: "mavo-apps",
+							filename: "countries"
+						});
+						result.textContent = Mavo.toJSON(r);
+
+						eval("var exp = " + expected.textContent);
+						return Test.equals(r, exp);
+					} catch (e) {
+						console.error(e);
+						result.textContent = "ERROR";
+						return false;
+					}
+				}
+			</script>
+		</section>
+
+		<section>
+			<h1>getFeatures</h1>
+
+			<table class="reftest" data-test="testGetFeatures" data-columns="3">
+				<thead>
+					<th>mv-firebase value</th>
+					<th>Actual features</th>
+					<th>Expected features</th>
+				</thead>
+				<tr title="Default">
+					<td>&nbsp;</td>
+					<td>{ auth: true, storage: true }</td>
+				</tr>
+
+				<tr title="Relative: Negative without with">
+					<td>no-storage</td>
+					<td>{ auth: true, storage: false }</td>
+				</tr>
+
+				<tr title="Relative: Positive">
+					<td>with auth</td>
+					<td>{ auth: true, storage: true }</td>
+				</tr>
+
+				<tr title="Relative: Both positive and negative">
+					<td>with storage no-auth</td>
+					<td>{ auth: false, storage: true }</td>
+				</tr>
+
+				<tr title="Absolute">
+					<td>auth storage</td>
+					<td>{ auth: true, storage: true }</td>
+				</tr>
+
+				<tr title="Absolute with duplicates">
+					<td>auth auth auth storage storage</td>
+					<td>{ auth: true, storage: true }</td>
+				</tr>
+
+				<tr title="Conflicts, last one wins">
+					<td>with auth no-auth no-storage storage</td>
+					<td>{ auth: false, storage: true }</td>
+				</tr>
+
+				<tr title="Ignore nonexistent features">
+					<td>with foo no-storage</td>
+					<td>{ auth: true, storage: false }</td>
+				</tr>
+			</table>
+
+			<script>
+				function testGetFeatures(test, result, expected) {
+					try {
+						const r = Mavo.Backend.Firebase.getFeatures(test.textContent, {
+							auth: true,
+							storage: true
+						});
+						result.textContent = Mavo.toJSON(r);
+
+						eval("var exp = " + expected.textContent);
+						return Test.equals(r, exp);
+					} catch (e) {
+						console.error(e);
+						result.textContent = "ERROR";
+						return false;
+					}
+				}
+			</script>
+		</section>
+
+		<section
+			mv-app="firebasetest"
+			mv-storage="https://mavo-demos.firebaseio.com/countries"
+		>
+			<h1>Basic</h1>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>Online</li>
+							<li>us United States</li>
+							<li>gb United Kingdom</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section
+			mv-app="dynamic"
+			mv-storage="https://mavo-demos.firebaseio.com/[flip? 'countries' : 'people']"
+		>
+			<h1>Dynamic</h1>
+
+			<p><input type="checkbox" property="flip" /> Check me</p>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>Online</li>
+							<li>us United States</li>
+							<li>gb United Kingdom</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section
+			mv-app="firebaseupload"
+			mv-storage="https://mavo-demos.firebaseio.com/countries"
+			class="mv-autoedit"
+		>
+			<h1>Firebase upload</h1>
+
+			<p>
+				Try to upload an image below. Try pasting an image, or drag & drop too.
+			</p>
+			<img
+				property="image"
+				src="https://mavo.io/logo.svg"
+				style="max-width: 100%"
+			/>
+		</section>
+
+		<section mv-app="mvstoragetype" mv-storage="local" mv-storage-type="remote">
+			<h1>mv-storage-type</h1>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>Online</li>
+							<li>us United States</li>
+							<li>gb United Kingdom</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section>
+			<h1>mv-format</h1>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<pre id="data-csv">
+prop1,prop2
+							1,foo
+							2,bar</pre
+						>
+					</td>
+					<td>
+						<script>
+							document.write($$("td pre").pop().outerHTML);
+						</script>
+					</td>
+				</tr>
+
+				<tr title="CSV from Element, explicit mv-format">
+					<td mv-app="csvelement" mv-storage="#data-csv" mv-format="csv">
+						<div property="row" mv-multiple>
+							<span property="prop1"></span>
+							<span property="prop2"></span>
+						</div>
+					</td>
+					<td>
+						<div>1 foo</div>
+						<div>2 bar</div>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section mv-app="urltest" mv-storage="">
+			<h1>mv-storage=Firebase, mv-source=Element, via URL</h1>
+
+			<p>
+				<a
+					href="?urltest-storage=https://mavo-demos.firebaseio.com/countries&urltest-source=%23countries"
+					>Click here first for this test to pass.</a
+				>
+			</p>
+			<table class="reftest">
+				<tr class="interactive">
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>us United States</li>
+							<li>jp Japan</li>
+							<li>es Spain</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section
+			mv-app
+			mv-storage="https://mavo-demos.firebaseio.com/countries"
+			mv-source="#countries"
+		>
+			<h1>mv-storage=Firebase, mv-source=element</h1>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>us United States</li>
+							<li>jp Japan</li>
+							<li>es Spain</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section mv-app mv-source="https://mavo-demos.firebaseio.com/countries">
+			<h1>No storage, mv-source=Firebase</h1>
+			<p>Should display data but no editing controls</p>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>Online</li>
+							<li>us United States</li>
+							<li>gb United Kingdom</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<script type="application/json" id="countries">
+			{
+				"country": [
+					{
+						"code": "us",
+						"name": "United States"
+					},
+					{
+						"code": "jp",
+						"name": "Japan"
+					},
+					{
+						"code": "es",
+						"name": "Spain"
+					}
+				]
+			}
+		</script>
+
+		<script>
+			$$("[mv-app]").forEach(section =>
+				section.setAttribute(
+					"mv-firebase-key",
+					"AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
+				)
+			);
+		</script>
+	</body>
+</html>
