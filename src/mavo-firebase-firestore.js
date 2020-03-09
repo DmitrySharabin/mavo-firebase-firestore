@@ -1,3 +1,5 @@
+//@ts-check
+
 /**
  * Firebase backend plugin for Mavo
  * @author Dmitry Sharabin and contributors
@@ -28,7 +30,7 @@
 				$.extend(this, this.defaults);
 
 				// Which backend's features should we support?
-				template = mavo.element.getAttribute("mv-firebase") || "";
+				const template = mavo.element.getAttribute("mv-firebase") || "";
 
 				this.features = _.getFeatures(template, this.features);
 
