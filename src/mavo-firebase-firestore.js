@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 /**
  * Firebase backend plugin for Mavo
@@ -6,6 +6,8 @@
  * @version %%VERSION%%
  */
 (function($) {
+	"use strict";
+
 	const _ = Mavo.Backend.register(
 		$.Class({
 			extends: Mavo.Backend,
@@ -29,14 +31,15 @@
 
 				$.extend(this, this.defaults);
 
-				// Which backend's features should we support?
+				// Which backend features should we support?
 				const template = mavo.element.getAttribute("mv-firebase") || "";
 
 				this.features = _.getFeatures(template, this.features);
 
 				if (this.features.auth) {
 					this.permissions.on("login");
-				} else {
+				}
+				else {
 					this.permissions.on(["edit", "save"]);
 				}
 
@@ -81,7 +84,8 @@
 						// Support using multiple apps on the same page
 						if (!firebase.apps.length) {
 							this.app = firebase.initializeApp(config);
-						} else {
+						}
+						else {
 							this.app = firebase.initializeApp(config, mavo.id);
 						}
 
@@ -100,7 +104,8 @@
 								},
 								error => mavo.error(`Firebase: ${error.message}`)
 							);
-						} else if (this.unsubscribe) {
+						}
+						else if (this.unsubscribe) {
 							// Stop listening to changes
 							this.unsubscribe();
 						}
@@ -126,7 +131,8 @@
 									$.fire(mavo.element, "mv-login", { backend: this });
 
 									this.permissions.off("login").on(["edit", "save", "logout"]);
-								} else {
+								}
+								else {
 									// User is signed out
 									this.user = null;
 
@@ -208,7 +214,8 @@
 					return new Promise((resolve, reject) => {
 						if (passive) {
 							resolve(this.user);
-						} else {
+						}
+						else {
 							const provider = new firebase.auth.GoogleAuthProvider();
 
 							// Specify additional OAuth 2.0 scopes that we need to request to access Google APIs
@@ -263,7 +270,8 @@
 						const parts = path.split("/");
 
 						[ret.collectionName, ret.filename] = parts;
-					} else {
+					}
+					else {
 						ret.collectionName = defaults.collectionName;
 						ret.filename = path || defaults.filename;
 					}
