@@ -27,9 +27,9 @@ To use **Firebase** backend, follow the setup instructions below.
 
 ## Setup Firebase
 
-### **Step 1**: [Sign into Firebase](https://console.firebase.google.com/) using your Google account
+### Step 1: [Sign into Firebase](https://console.firebase.google.com/) using your Google account
 
-### **Step 2**: Create a Firebase project
+### Step 2: Create a Firebase project
 
 1.  In the [Firebase console](https://console.firebase.google.com/), click **Add project**, then enter a **Project name**.
 
@@ -60,7 +60,7 @@ To use **Firebase** backend, follow the setup instructions below.
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_2_6.png)
 
-### **Step 3**: Register your app with Firebase
+### Step 3: Register your app with Firebase
 
 1. In the center of the [Firebase console](https://console.firebase.google.com/)'s project overview page, click the **Web** icon (**</>**) to launch the setup workflow.
 
@@ -87,7 +87,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 6. Click **Continue to console**.
 
-### **Step 4**: Activate Cloud Firestore
+### Step 4: Activate Cloud Firestore
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 
@@ -113,7 +113,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_5.png)
 
-### **Step 5**: Set up Cloud Firestore security rules
+### Step 5: Set up Cloud Firestore security rules
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 2. Open the **Rules** tab.
@@ -124,7 +124,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_5_3.png)
 
-### **Step 6**: Enable Google Sign-In in the Firebase console
+### Step 6: Enable Google Sign-In in the Firebase console
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Authentication** section.
 
@@ -142,7 +142,7 @@ You must specify **Project support email** by selecting it from the list. You ca
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_6_3.png)
 
-### **Step 7**: Whitelist your domain
+### Step 7: Whitelist your domain
 
 To use Firebase Authentication in a web app, you must whitelist the domains that the Firebase Authentication servers can redirect to after signing in a user.
 
@@ -159,7 +159,7 @@ By default, **localhost** and your Firebase project's hosting domain are whiteli
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_7_3_2.png)
 
-### **Step 8**: Create a default Storage bucket
+### Step 8: Create a default Storage bucket
 
 Cloud Storage for Firebase lets you upload and share user generated content, such as images and video, which allows you to build rich media content into your apps.
 
@@ -184,7 +184,7 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_8_5.png)
 
-### **Step 9**: Set up security rules for the default Storage bucket
+### Step 9: Set up security rules for the default Storage bucket
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Storage** section.
 2. Open the **Rules** tab.
