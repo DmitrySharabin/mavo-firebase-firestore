@@ -33,57 +33,57 @@ To use **Firebase** backend, follow the setup instructions below.
 
 1.  In the [Firebase console](https://console.firebase.google.com/), click **Add project**, then enter a **Project name**.
 
-![](/images/step_2_1_1.png)
+![](./images/step_2_1_1.png)
 
-![](/images/step_2_1_2.png)
+![](./images/step_2_1_2.png)
 
 2.  (_Optional_) If you are creating a new project, you can edit the **Project ID**.
 
     Firebase automatically assigns a unique ID to your Firebase project. To use a specific identifier, you must edit your project ID during this setup step. You cannot change your project ID later.
 
-![](/images/step_2_2_1.png)
+![](./images/step_2_2_1.png)
 
-![](/images/step_2_2_2.png)
+![](./images/step_2_2_2.png)
 
 3.  Click **Continue**.
 4.  (_Optional_) Set up Google Analytics for your project, then click **Continue**.
 
-![](/images/step_2_4.png)
+![](./images/step_2_4.png)
 
 5.  Click **Create project**.
 
     Firebase automatically provisions resources for your Firebase project. When the process completes, you'll be taken to the overview page for your Firebase project in the Firebase console.
 
-![](/images/step_2_5.png)
+![](./images/step_2_5.png)
 
 6. Click **Continue**.
 
-![](/images/step_2_6.png)
+![](./images/step_2_6.png)
 
 ### **Step 3**: Register your app with Firebase
 
 1. In the center of the [Firebase console](https://console.firebase.google.com/)'s project overview page, click the **Web** icon (**</>**) to launch the setup workflow.
 
-![](/images/step_3_1_1.png)
+![](./images/step_3_1_1.png)
 
 If you've already added an app to your Firebase project, click **Add app** to display the platform options.
 
-![](/images/step_3_1_2.png)
+![](./images/step_3_1_2.png)
 
 2. Enter your app's nickname.
 
    This nickname is an internal, convenience identifier and is only visible to you in the Firebase console.
 
-![](/images/step_3_2.png)
+![](./images/step_3_2.png)
 
 3. (_Optional_) Set up Firebase Hosting for your web app.
 
-![](/images/step_3_3.png)
+![](./images/step_3_3.png)
 
 4. Click **Register app**.
 5. Save for later usage the two values: **databaseURL** and **apiKey**.
 
-![](/images/step_3_5.png)
+![](./images/step_3_5.png)
 
 6. Click **Continue to console**.
 
@@ -91,56 +91,56 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 
-![](/images/step_4_1.png)
+![](./images/step_4_1.png)
 
 2. (_Optional_) Click **Go to Cloud Platform**.
 
-![](/images/step_4_2.png)
+![](./images/step_4_2.png)
 
 3. (_Optional_) Click **Switch to native mode**.
 
-![](/images/step_4_3.png)
+![](./images/step_4_3.png)
 
 4. (_Optional_) Click **Switch modes** and then click **Got it**.
 
-![](/images/step_4_4_1.png)
+![](./images/step_4_4_1.png)
 
-![](/images/step_4_4_2.png)
+![](./images/step_4_4_2.png)
 
 5. (_Optional_) Go back to the **Database** section of the [Firebase console](https://console.firebase.google.com/).
 
    **Note**: To see the changes, you may need to refresh the browser window.
 
-![](/images/step_4_5.png)
+![](./images/step_4_5.png)
 
 ### **Step 5**: Set up Cloud Firestore security rules
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 2. Open the **Rules** tab.
 
-![](/images/step_5_2.png)
+![](./images/step_5_2.png)
 
 3. [Write your rules](#cloud-firestore) in the online editor, then click **Publish**.
 
-![](/images/step_5_3.png)
+![](./images/step_5_3.png)
 
 ### **Step 6**: Enable Google Sign-In in the Firebase console
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Authentication** section.
 
-![](/images/step_6_1.png)
+![](./images/step_6_1.png)
 
 2. On the **Sign-in method** tab, in the **Sign-in providers** section, enable the **Google** sign-in method.
 
-![](/images/step_6_2_1.png)
+![](./images/step_6_2_1.png)
 
 You must specify **Project support email** by selecting it from the list. You can also edit the provided **Project public-facing name**.
 
-![](/images/step_6_2_2.png)
+![](./images/step_6_2_2.png)
 
 3. Click **Save**.
 
-![](/images/step_6_3.png)
+![](./images/step_6_3.png)
 
 ### **Step 7**: Whitelist your domain
 
@@ -151,13 +151,13 @@ By default, **localhost** and your Firebase project's hosting domain are whiteli
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Authentication** section.
 2. On the **Sign-in method** tab, in the **Authorized domains** section, click **Add domain**.
 
-![](/images/step_7_2.png)
+![](./images/step_7_2.png)
 
 3. Type in the name of your domain and click **Add**.
 
-![](/images/step_7_3_1.png)
+![](./images/step_7_3_1.png)
 
-![](/images/step_7_3_2.png)
+![](./images/step_7_3_2.png)
 
 ### **Step 8**: Create a default Storage bucket
 
@@ -165,16 +165,16 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 1. From the navigation pane of the [Firebase console](https://console.firebase.google.com/), select **Storage**, then click **Get started**.
 
-![](/images/step_8_1.png)
+![](./images/step_8_1.png)
 
 2. Review the messaging about securing your Storage data using security rules. During development, consider setting up your rules for public access.
 
-![](/images/step_8_2.png)
+![](./images/step_8_2.png)
 
 3. Click **Next**.
 4. Select a location for your default Storage bucket.
 
-![](/images/step_8_4.png)
+![](./images/step_8_4.png)
 
 **Note**: If you aren't able to select a location, then your project already has a default resource location. It was set either during project creation or when setting up another service that requires a location setting.
 
@@ -182,18 +182,18 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 5. Click **Done**.
 
-![](/images/step_8_5.png)
+![](./images/step_8_5.png)
 
 ### **Step 9**: Set up security rules for the default Storage bucket
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Storage** section.
 2. Open the **Rules** tab.
 
-![](/images/step_9_2.png)
+![](./images/step_9_2.png)
 
 3. [Write your rules](#storage-bucket) in the online editor, then click **Publish**.
 
-![](/images/step_9_3.png)
+![](./images/step_9_3.png)
 
 ## Setup Mavo application
 
@@ -519,7 +519,7 @@ service firebase.storage {
 
 Suppose your Mavo app has the name `myAwesomeApp`. By default, the **Firebase** backend stores its data in files and folders matching the app's name. Keep in mind that the app data is stored in the file inside the `mavo-apps` collection.
 
-![Default collection "mavo-apps"](/images/collection_mavo_apps.png)
+![Default collection "mavo-apps"](./images/collection_mavo_apps.png)
 
 The corresponding security rules could look like that:
 
