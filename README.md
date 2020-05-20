@@ -95,7 +95,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4a_2.png)
 
-3. Review the messaging about securing your data using security rules. Choose the mode you want to start with.
+3. Review the messaging about securing your data using security rules. Choose the mode you want to start in.
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4a_3.png)
 
