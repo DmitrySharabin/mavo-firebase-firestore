@@ -91,27 +91,27 @@ If you've already added an app to your Firebase project, click **Add app** to di
 
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Database** section.
 
+2. Click **Create database**.
+
+![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4a_2.png)
+
+3. Review the messaging about securing your data using security rules. Choose the mode you want to start with.
+
+![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4a_3.png)
+
+4. Click **Next**.
+
+5. Select a location for your Cloud Firestore data.
+
+![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4a_5.png)
+
+**Note**: If you aren't able to select a location, then your project already has a default resource location. It was set either during project creation or when setting up another service that requires a location setting.
+
+**Warning**: After you set your project's default resource location, you cannot change it.
+
+6. Click **Done**.
+
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_1.png)
-
-2. (_Optional_) Click **Go to Cloud Platform**.
-
-![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_2.png)
-
-3. (_Optional_) Click **Switch to native mode**.
-
-![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_3.png)
-
-4. (_Optional_) Click **Switch modes** and then click **Got it**.
-
-![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_4_1.png)
-
-![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_4_2.png)
-
-5. (_Optional_) Go back to the **Database** section of the [Firebase console](https://console.firebase.google.com/).
-
-   **Note**: To see the changes, you may need to refresh the browser window.
-
-![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_4_5.png)
 
 ### Step 5: Set up Cloud Firestore security rules
 
