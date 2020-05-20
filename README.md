@@ -218,7 +218,7 @@ By default, the **Firebase** backend supports authentication (`auth`) and storin
 
 **Note**: Keep in mind that if the authentication feature is on (by default), **only signed-in users can edit app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). That might change soon. Stay in touch! 😊
 
-### Demo
+## Demo
 
 ```markup
 <main
