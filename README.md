@@ -37,7 +37,7 @@ To use **Firebase** backend, follow the setup instructions below.
 
 ![](/images/step_2_1_2.png)
 
-1.  (_Optional_) If you are creating a new project, you can edit the **Project ID**.
+2.  (_Optional_) If you are creating a new project, you can edit the **Project ID**.
 
     Firebase automatically assigns a unique ID to your Firebase project. To use a specific identifier, you must edit your project ID during this setup step. You cannot change your project ID later.
 
