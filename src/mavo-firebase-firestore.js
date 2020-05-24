@@ -24,8 +24,8 @@
 					storageName:
 						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
 					features: {
-						auth: true,
-						storage: true
+						auth: false,
+						storage: false
 					}
 				};
 
