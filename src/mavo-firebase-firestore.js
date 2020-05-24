@@ -167,7 +167,11 @@
 				return this.ready.then(() =>
 					this.get(this.filename)
 						.then(doc => Promise.resolve(doc.data() || {}))
-						.catch(error => this.mavo.error(`Firebase: ${error.message}`))
+						.catch(error => {
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+
+							this.mavo.error(`Firebase Load Data: ${error.message}`);
+						})
 				);
 			},
 
