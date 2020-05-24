@@ -219,7 +219,12 @@
 					.doc(this.filename)
 					.set(data)
 					.then(() => Promise.resolve())
-					.catch(error => this.mavo.error(`Firebase: ${error.message}`));
+					.catch(error => {
+						Mavo.warn(this.mavo._("firebase-enable-auth"));
+						Mavo.warn(this.mavo._("firebase-check-security-rules"));
+
+						this.mavo.error(`Firebase Auth: ${error.message}`);
+					});
 			},
 
 			// Takes care of authentication. If passive is true, only checks if
