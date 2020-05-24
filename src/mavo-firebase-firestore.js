@@ -180,6 +180,7 @@
 			put: function(serialized, path = this.path, o = {}) {
 				if (!this.storageBucketRef) {
 					Mavo.warn(this.mavo._("firebase-enable-storage"));
+
 					return Promise.reject(Error(`Firebase Storage: ${this.mavo._("firebase-enable-storage")}`));
 				}
 
