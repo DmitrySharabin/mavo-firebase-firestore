@@ -98,7 +98,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     mavo.render(doc.data());
                   }, function (error) {
-                    return mavo.error("Firebase: ".concat(error.message));
+                    return mavo.error("Firebase Realtime: ".concat(error.message));
                   });
                 } else if (_this.unsubscribe) {
                   // Stop listening to changes
@@ -168,7 +168,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _this2.get(_this2.filename).then(function (doc) {
           return Promise.resolve(doc.data() || {});
         })["catch"](function (error) {
-          return _this2.mavo.error("Firebase: ".concat(error.message));
+          Mavo.warn(_this2.mavo._("firebase-check-security-rules"));
+
+          _this2.mavo.error("Firebase Load Data: ".concat(error.message));
         });
       });
     },
@@ -252,7 +254,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             firebase.auth().useDeviceLanguage();
 
             _this5.app.auth().signInWithPopup(provider)["catch"](function (error) {
-              _this5.mavo.error("Firebase: ".concat(error.message));
+              _this5.mavo.error("Firebase Auth: ".concat(error.message));
 
               reject(error);
             });
@@ -265,7 +267,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this6 = this;
 
       return this.app.auth().signOut()["catch"](function (error) {
-        _this6.mavo.error("Firebase: ".concat(error.message));
+        _this6.mavo.error("Firebase Auth: ".concat(error.message));
       });
     },
     "static": {

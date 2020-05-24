@@ -102,7 +102,7 @@
 									// if (source === "Server" && ...) {...}
 									mavo.render(doc.data());
 								},
-								error => mavo.error(`Firebase: ${error.message}`)
+								error => mavo.error(`Firebase Realtime: ${error.message}`)
 							);
 						}
 						else if (this.unsubscribe) {
@@ -167,7 +167,11 @@
 				return this.ready.then(() =>
 					this.get(this.filename)
 						.then(doc => Promise.resolve(doc.data() || {}))
-						.catch(error => this.mavo.error(`Firebase: ${error.message}`))
+						.catch(error => {
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+
+							this.mavo.error(`Firebase Load Data: ${error.message}`);
+						})
 				);
 			},
 
@@ -249,7 +253,7 @@
 								.auth()
 								.signInWithPopup(provider)
 								.catch(error => {
-									this.mavo.error(`Firebase: ${error.message}`);
+									this.mavo.error(`Firebase Auth: ${error.message}`);
 									reject(error);
 								});
 						}
@@ -263,7 +267,7 @@
 					.auth()
 					.signOut()
 					.catch(error => {
-						this.mavo.error(`Firebase: ${error.message}`);
+						this.mavo.error(`Firebase Auth: ${error.message}`);
 					});
 			},
 
