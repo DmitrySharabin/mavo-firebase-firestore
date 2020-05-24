@@ -102,7 +102,7 @@
 									// if (source === "Server" && ...) {...}
 									mavo.render(doc.data());
 								},
-								error => mavo.error(`Firebase: ${error.message}`)
+								error => mavo.error(`Firebase Realtime: ${error.message}`)
 							);
 						}
 						else if (this.unsubscribe) {
@@ -249,7 +249,7 @@
 								.auth()
 								.signInWithPopup(provider)
 								.catch(error => {
-									this.mavo.error(`Firebase: ${error.message}`);
+									this.mavo.error(`Firebase Auth: ${error.message}`);
 									reject(error);
 								});
 						}
@@ -263,7 +263,7 @@
 					.auth()
 					.signOut()
 					.catch(error => {
-						this.mavo.error(`Firebase: ${error.message}`);
+						this.mavo.error(`Firebase Auth: ${error.message}`);
 					});
 			},
 
