@@ -208,15 +208,15 @@ Set the following attributes on the Mavo root element (the one with the `mv-app`
 
 ### Customization
 
+By default, the **Firebase** backend doesn't enable authentication (`auth`) and storing an end-user's files (`storage`) and doesn't load the corresponding JavaScript files implementing these features. You can enable either of these features or both by adding the `mv-firebase` attribute to the Mavo root. For example: `mv-firebase="auth"` enables authentication, `mv-firebase="storage"` let end-users upload their files, and `mv-firebase="auth storage"` enables both these features (see [example](#demo) below).
+
+**Note**: Keep in mind that if the authentication feature is on, **only signed-in users can edit app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). That might change soon. Stay in touch! 😊
+
 By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection and the name of the corresponding file after the `databaseURL`. The `databaseURL`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="databaseURL/collectionName/filename"`. You can also leave the collection name default and specify only the file name, like so: `mv-storage="databaseURL/filename"` (see [example](#demo) below).
 
 Need to get realtime updates? Add the `mv-firebase-realtime` attribute to the Mavo root element.
 
 The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
-
-By default, the **Firebase** backend supports authentication (`auth`) and storing an end-user's files (`storage`) and automatically loads the corresponding JavaScript files implementing these features. If your app doesn't use one of them or both, you can switch them off via the `mv-firebase` attribute. For example: `mv-firebase="no-auth"` switches off the authentication, `mv-firebase="no-storage"` won't let end-users upload their files, and `mv-firebase="no-auth no-storage"` turns off both these features (see [example](#demo) below).
-
-**Note**: Keep in mind that if the authentication feature is on (by default), **only signed-in users can edit app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). That might change soon. Stay in touch! 😊
 
 ## Demo
 
