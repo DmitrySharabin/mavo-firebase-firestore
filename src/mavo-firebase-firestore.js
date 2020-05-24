@@ -218,11 +218,6 @@
 						else {
 							const provider = new firebase.auth.GoogleAuthProvider();
 
-							// Specify additional OAuth 2.0 scopes that we need to request to access Google APIs
-							provider.addScope(
-								"https://www.googleapis.com/auth/cloud-platform"
-							);
-
 							// Apply the default browser preference
 							firebase.auth().useDeviceLanguage();
 
