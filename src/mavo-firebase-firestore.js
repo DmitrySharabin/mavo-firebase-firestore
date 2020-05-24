@@ -272,7 +272,7 @@
 				// value: The mv-storage/mv-source/mv-init value
 				test: function(value) {
 					// Returns true if this value applies to this backend
-					return /^https:\/\/.*\.firebaseio\.com(\/)?/.test(value.trim());
+					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value.trim());
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, collection name, filename
