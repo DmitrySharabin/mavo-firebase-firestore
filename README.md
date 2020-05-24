@@ -226,7 +226,7 @@ By default, the **Firebase** backend supports authentication (`auth`) and storin
     mv-plugins="firebase-firestore"
     mv-storage="https://mavo-demos.firebaseio.com/todo"
     mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
-    mv-firebase="no-storage">
+    mv-firebase="auth">
     <header>
         <h1>My tasks</h1>
         <p>
@@ -285,7 +285,7 @@ body a {
 		transform: rotate(8deg);
 	}
 }
-body ul {
+main ul {
 	position: relative;
 	z-index: 1;
 	display: block;
@@ -299,8 +299,8 @@ body ul {
 	font-size: 120%;
 	text-align: left;
 }
-body ul::before,
-body ul::after {
+main ul::before,
+main ul::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -314,26 +314,26 @@ body ul::after {
 	-webkit-animation: transform 0.4s cubic-bezier(0.25, 0.1, 0.4, 1.5);
 	animation: transform 0.4s cubic-bezier(0.25, 0.1, 0.4, 1.5);
 }
-body ul::after {
+main ul::after {
 	transform: rotate(2deg);
 }
-body :checked + [property="taskTitle"] {
+main :checked + [property="taskTitle"] {
 	font-style: italic;
 	text-decoration: line-through;
 	color: gray;
 	mix-blend-mode: multiply;
 }
-body input::-webkit-input-placeholder {
+main input::-webkit-input-placeholder {
 	font-style: italic;
 	color: #999;
 	mix-blend-mode: multiply;
 }
-body input::-moz-placeholder {
+main input::-moz-placeholder {
 	font-style: italic;
 	color: #999;
 	mix-blend-mode: multiply;
 }
-body button.mv-add-task {
+main button.mv-add-task {
 	padding: 0.2em 0.5em;
 	margin-top: 1em;
 	border-radius: 0.3em;
@@ -347,39 +347,34 @@ body button.mv-add-task {
 	cursor: pointer;
 	font-size: 120%;
 }
-body button.mv-add:hover {
+main button.mv-add:hover {
 	background-color: orange;
 }
-body button.mv-add:active {
+main button.mv-add:active {
 	box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.8) inset;
 	background-image: none;
 }
-body > header {
+main > header {
 	display: block;
 	margin: 2em 0 3em;
 	text-shadow: 0 -1px 3px black;
 	opacity: 0.9;
 	font-size: 120%;
 }
-body > header > h1 {
+main > header > h1 {
 	font-weight: 100;
 	font-size: 400%;
 	font-family: inherit;
 	opacity: 0.6;
 }
-body > header > p {
+main > header > p {
 	margin-top: 0.5em;
 }
-body body > footer {
-	display: block;
-	margin-top: 3em;
-	font-size: small;
-}
-body .auth-controls,
-body .progress {
+main .auth-controls,
+main .progress {
 	mix-blend-mode: multiply;
 }
-body .mv-item-bar.mv-ui {
+main .mv-item-bar.mv-ui {
 	position: static;
 	pointer-events: auto;
 	opacity: 1 !important;
