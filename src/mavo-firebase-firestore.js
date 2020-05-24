@@ -178,6 +178,11 @@
 			 * @param {*} o Arbitrary options
 			 */
 			put: function(serialized, path = this.path, o = {}) {
+				if (!this.storageBucketRef) {
+					Mavo.warn(this.mavo._("firebase-enable-storage"));
+					return Promise.reject(Error(`Firebase Storage: ${this.mavo._("firebase-enable-storage")}`));
+				}
+
 				return this.storageBucketRef
 					.child(path)
 					.put(serialized)
@@ -192,7 +197,20 @@
 			upload: function(file, path) {
 				path = `${this.storageName}/${path}`;
 
-				return this.put(file, path).then(downloadURL => downloadURL);
+				return this.put(file, path)
+					.then(downloadURL => downloadURL)
+					.catch(error => {
+							if (error.code) {
+								if (this.features.auth) {
+									Mavo.warn(this.mavo._("firebase-check-security-rules"));
+								}
+								else {
+									Mavo.warn(this.mavo._("firebase-enable-auth"));
+								}
+							}
+
+							this.mavo.error(`${error.message}`);
+					});
 			},
 
 			store: function(data, { path, format = this.format } = {}) {
