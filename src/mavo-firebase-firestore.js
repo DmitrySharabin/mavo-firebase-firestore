@@ -235,10 +235,6 @@
 			// the user is already logged in, but does not present any login UI
 			login: function(passive) {
 				return this.ready.then(() => {
-					if (this.user) {
-						return Promise.resolve();
-					}
-
 					return new Promise((resolve, reject) => {
 						if (passive) {
 							resolve(this.user);
