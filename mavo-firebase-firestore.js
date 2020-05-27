@@ -235,10 +235,6 @@
 			// the user is already logged in, but does not present any login UI
 			login: function(passive) {
 				return this.ready.then(() => {
-					if (this.user) {
-						return Promise.resolve();
-					}
-
 					return new Promise((resolve, reject) => {
 						if (passive) {
 							resolve(this.user);
@@ -252,6 +248,20 @@
 							this.app
 								.auth()
 								.signInWithPopup(provider)
+								.then(result => {
+									// Log in to other similar backends that are logged out
+									for (const appid in Mavo.all) {
+										const storage = Mavo.all[appid].primaryBackend;
+
+										if (storage
+											&& storage.id === this.id
+											&& storage !== this
+											&& storage.features.auth
+											&& !storage.user) {
+												storage.app.auth().signInWithCredential(result.credential);
+										}
+									}
+								})
 								.catch(error => {
 									this.mavo.error(`Firebase Auth: ${error.message}`);
 									reject(error);
