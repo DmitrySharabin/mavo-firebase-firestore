@@ -227,64 +227,6 @@
 			/>
 		</section>
 
-		<section mv-app="mvstoragetype" mv-storage="local" mv-storage-type="remote">
-			<h1>mv-storage-type</h1>
-
-			<table class="reftest">
-				<tr>
-					<td>
-						<ul>
-							<li property="country" mv-multiple>
-								<span property="code">Code</span>
-								<span property="name">Name</span>
-							</li>
-						</ul>
-					</td>
-					<td>
-						<ul>
-							<li>Online</li>
-							<li>us United States</li>
-							<li>gb United Kingdom</li>
-						</ul>
-					</td>
-				</tr>
-			</table>
-		</section>
-
-		<section>
-			<h1>mv-format</h1>
-
-			<table class="reftest">
-				<tr>
-					<td>
-						<pre id="data-csv">
-prop1,prop2
-							1,foo
-							2,bar</pre
-						>
-					</td>
-					<td>
-						<script>
-							document.write($$("td pre").pop().outerHTML);
-						</script>
-					</td>
-				</tr>
-
-				<tr title="CSV from Element, explicit mv-format">
-					<td mv-app="csvelement" mv-storage="#data-csv" mv-format="csv">
-						<div property="row" mv-multiple>
-							<span property="prop1"></span>
-							<span property="prop2"></span>
-						</div>
-					</td>
-					<td>
-						<div>1 foo</div>
-						<div>2 bar</div>
-					</td>
-				</tr>
-			</table>
-		</section>
-
 		<section mv-app="urltest" mv-storage="">
 			<h1>mv-storage=Firebase, mv-source=Element, via URL</h1>
 
