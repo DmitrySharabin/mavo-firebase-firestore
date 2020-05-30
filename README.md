@@ -199,10 +199,10 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 Set the following attributes on the Mavo root element (the one with the `mv-app` attribute):
 
-| Attribute         | Value                                                                      | Example                                                                                                                                       |
-| ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mv-storage`      | `databaseURL`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) | `mv-storage="https://mavo-demos.firebaseio.com"`. <br />**Note**: You can also use this value in other attributes: `mv-source` and `mv-init`. |
-| `mv-firebase-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))     | `mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"`                                                                                   |
+| Attribute         | Value                                                                      | Example                                                                                                                                                      |
+| ----------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `mv-storage`      | `databaseURL`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) | `mv-storage="https://mavo-demos.firebaseio.com"`. <br />**Note**: You can also use this value in other attributes: `mv-source`, `mv-init`, and `mv-uploads`. |
+| `mv-firebase-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))     | `mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"`                                                                                                  |
 
 **Note**: The **Firebase** backend lets you have multiple Mavo applications in one Firebase project if they have **different names**. That means you can use the `databaseURL` and `apiKey` values multiple times.
 
