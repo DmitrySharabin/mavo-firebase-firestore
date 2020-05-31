@@ -98,21 +98,6 @@
 					<td>{ auth: true, storage: true }</td>
 				</tr>
 
-				<tr title="Relative: Negative without with">
-					<td>no-storage</td>
-					<td>{ auth: true, storage: false }</td>
-				</tr>
-
-				<tr title="Relative: Positive">
-					<td>with auth</td>
-					<td>{ auth: true, storage: true }</td>
-				</tr>
-
-				<tr title="Relative: Both positive and negative">
-					<td>with storage no-auth</td>
-					<td>{ auth: false, storage: true }</td>
-				</tr>
-
 				<tr title="Absolute">
 					<td>auth storage</td>
 					<td>{ auth: true, storage: true }</td>
@@ -121,11 +106,6 @@
 				<tr title="Absolute with duplicates">
 					<td>auth auth auth storage storage</td>
 					<td>{ auth: true, storage: true }</td>
-				</tr>
-
-				<tr title="Conflicts, last one wins">
-					<td>with auth no-auth no-storage storage</td>
-					<td>{ auth: false, storage: true }</td>
 				</tr>
 
 				<tr title="Ignore nonexistent features">
