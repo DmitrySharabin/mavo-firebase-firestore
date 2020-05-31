@@ -25,7 +25,8 @@
 						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
 					features: {
 						auth: false,
-						storage: false
+						storage: false,
+						realtime: false
 					}
 				};
 
@@ -91,7 +92,7 @@
 
 						this.db = this.app.firestore().collection(this.collectionName);
 
-						if (mavo.element.hasAttribute("mv-firebase-realtime")) {
+						if (this.features.realtime || mavo.element.hasAttribute("mv-firebase-realtime")) {
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
 								doc => {
@@ -322,22 +323,10 @@
 					const all = Object.keys(defaults);
 
 					if (template && (template = template.trim())) {
-						const relative = /^with\s|\bno-\w+\b/.test(template);
 						let ids = template.split(/\s+/);
 
 						// Drop duplicates (last one wins)
 						ids = Mavo.Functions.unique(ids.reverse()).reverse();
-
-						if (relative) {
-							ids = all.filter(id => {
-								const positive = ids.lastIndexOf(id);
-								const negative = ids.lastIndexOf("no-" + id);
-								const keep = positive > Math.max(-1, negative);
-								const drop = negative > Math.max(-1, positive);
-
-								return keep || !drop;
-							});
-						}
 
 						all.forEach(id =>
 							ids.includes(id) ? (ret[id] = true) : (ret[id] = false)

@@ -214,7 +214,7 @@ By default, the **Firebase** backend doesn't enable authentication (`auth`) and 
 
 By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection and the name of the corresponding file after the `databaseURL`. The `databaseURL`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="databaseURL/collectionName/filename"`. You can also leave the collection name default and specify only the file name, like so: `mv-storage="databaseURL/filename"` (see [example](#demo) below).
 
-Need to get realtime updates? Add the `mv-firebase-realtime` attribute to the Mavo root element.
+Need to get realtime updates? Either add the `mv-firebase-realtime` attribute to the Mavo root element or add `realtime` to the `mv-firebase` attribute value. If there is no `mv-firebase` attribute, simply add `mv-firebase="realtime"` to the root of your app.
 
 The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
 

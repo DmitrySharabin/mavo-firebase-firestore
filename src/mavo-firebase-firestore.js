@@ -25,7 +25,8 @@
 						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
 					features: {
 						auth: false,
-						storage: false
+						storage: false,
+						realtime: false
 					}
 				};
 
@@ -91,7 +92,7 @@
 
 						this.db = this.app.firestore().collection(this.collectionName);
 
-						if (mavo.element.hasAttribute("mv-firebase-realtime")) {
+						if (this.features.realtime || mavo.element.hasAttribute("mv-firebase-realtime")) {
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
 								doc => {
