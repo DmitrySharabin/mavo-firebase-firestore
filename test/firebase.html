@@ -95,22 +95,22 @@
 				</thead>
 				<tr title="Default">
 					<td>&nbsp;</td>
-					<td>{ auth: true, storage: true }</td>
+					<td>{ auth: false, storage: false, realtime: false }</td>
 				</tr>
 
 				<tr title="Absolute">
-					<td>auth storage</td>
-					<td>{ auth: true, storage: true }</td>
+					<td>auth realtime storage</td>
+					<td>{ auth: true, storage: true, realtime: true }</td>
 				</tr>
 
 				<tr title="Absolute with duplicates">
 					<td>auth auth auth storage storage</td>
-					<td>{ auth: true, storage: true }</td>
+					<td>{ auth: true, storage: true, realtime: false }</td>
 				</tr>
 
 				<tr title="Ignore nonexistent features">
-					<td>with foo no-storage</td>
-					<td>{ auth: true, storage: false }</td>
+					<td>realtime foo storage</td>
+					<td>{ auth: false, storage: true, realtime: true }</td>
 				</tr>
 			</table>
 
@@ -118,8 +118,9 @@
 				function testGetFeatures(test, result, expected) {
 					try {
 						const r = Mavo.Backend.Firebase.getFeatures(test.textContent, {
-							auth: true,
-							storage: true
+							auth: false,
+							storage: false,
+							realtime: false
 						});
 						result.textContent = Mavo.toJSON(r);
 
