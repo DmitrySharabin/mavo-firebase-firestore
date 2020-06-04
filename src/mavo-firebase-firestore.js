@@ -92,7 +92,7 @@
 
 						this.db = this.app.firestore().collection(this.collectionName);
 
-						if (this.features.realtime || mavo.element.hasAttribute("mv-firebase-realtime")) {
+						if (this.features.realtime) {
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
 								doc => {
