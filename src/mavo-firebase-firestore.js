@@ -90,6 +90,19 @@
 							this.app = firebase.initializeApp(config, mavo.id);
 						}
 
+						// To allow offline persistence, we MUST enable it foremost
+						// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
+						this.app.firestore().enablePersistence({ synchronizeTabs: true })
+							.catch(error => {
+								if (error.code === "unimplemented") {
+									// The current browser does not support all of the
+									// features required to enable persistence
+									Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
+
+									this.mavo.error(`Firebase Offline: ${error.message}`);
+								}
+							});
+
 						this.db = this.app.firestore().collection(this.collectionName);
 
 						if (this.features.realtime) {
@@ -345,6 +358,7 @@
 	Mavo.Locale.register("en", {
 		"firebase-enable-auth": "You might need to enable authorization in your app. To do so, add mv-firebase=\"auth\" to the Mavo root.",
 		"firebase-enable-storage": "It seems your app does not support uploads. To enable uploads, add mv-firebase=\"storage\" to the Mavo root.",
-		"firebase-check-security-rules": "Please check the security rules for your app. They might be inappropriately set. For details, see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples."
+		"firebase-check-security-rules": "Please check the security rules for your app. They might be inappropriately set. For details, see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.",
+		"firebase-offline-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers."
 	});
 })(Bliss);
