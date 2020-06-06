@@ -178,6 +178,14 @@
 			},
 
 			load: function() {
+				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
+				// So we hide the progress indicator after 300ms, and it seems that loading was performed (and it really was).
+				// I am not sure whether we would face this issue without making other parts of an app offline-ready,
+				// but in the sake of consistency and future use I add this code here
+				if (!window.navigator.onLine) {
+					setTimeout(() => this.mavo.inProgress = false, 300);
+				}
+
 				return this.ready.then(() =>
 					this.get(this.filename)
 						.then(doc => Promise.resolve(doc.data() || {}))
@@ -233,6 +241,12 @@
 			},
 
 			store: function(data, { path, format = this.format } = {}) {
+				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
+				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
+				if (!window.navigator.onLine) {
+					setTimeout(() => this.mavo.inProgress = false, 300);
+				}
+
 				return this.db
 					.doc(this.filename)
 					.set(data)
