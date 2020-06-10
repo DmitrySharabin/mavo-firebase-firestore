@@ -85,9 +85,9 @@
 		</section>
 
 		<section>
-			<h1>getFeatures</h1>
+			<h1>getOptions</h1>
 
-			<table class="reftest" data-test="testGetFeatures" data-columns="3">
+			<table class="reftest" data-test="testGetOptions" data-columns="3">
 				<thead>
 					<th>mv-firebase value</th>
 					<th>Actual features</th>
@@ -115,9 +115,9 @@
 			</table>
 
 			<script>
-				function testGetFeatures(test, result, expected) {
+				function testGetOptions(test, result, expected) {
 					try {
-						const r = Mavo.Backend.Firebase.getFeatures(test.textContent, {
+						const r = Mavo.Backend.Firebase.getOptions(test.textContent, {
 							auth: false,
 							storage: false,
 							realtime: false

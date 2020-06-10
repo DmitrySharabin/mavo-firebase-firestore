@@ -35,7 +35,7 @@
 				// Which backend features should we support?
 				const template = mavo.element.getAttribute("mv-firebase") || "";
 
-				this.features = _.getFeatures(template, this.features);
+				this.features = _.getOptions(template, this.features);
 
 				if (this.features.auth) {
 					this.permissions.on("login");
@@ -341,10 +341,11 @@
 				},
 
 				/**
-				 * Parse the list of features the Firebase backend should support
-				 * @param {*} template The value of the mv-firebase attribute or an empty string
+				 * Parse the list of options
+				 * @param {String} template The value to parse or an empty string
+				 * @param {Object} defaults Default set of values
 				 */
-				getFeatures: function(template, defaults) {
+				getOptions: function(template, defaults) {
 					const ret = defaults;
 
 					const all = Object.keys(defaults);
