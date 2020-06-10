@@ -28,9 +28,9 @@
 		<h1>Firebase Tests</h1>
 
 		<section>
-			<h1>parseURL</h1>
+			<h1>parseSource</h1>
 
-			<table class="reftest" data-test="testParseURL" data-columns="3">
+			<table class="reftest" data-test="testParseSource" data-columns="3">
 				<tr>
 					<td>https://mavo-demos.firebaseio.com</td>
 					<td>
@@ -65,9 +65,9 @@
 			</table>
 
 			<script>
-				function testParseURL(test, result, expected) {
+				function testParseSource(test, result, expected) {
 					try {
-						const r = Mavo.Backend.Firebase.parseURL(test.textContent, {
+						const r = Mavo.Backend.Firebase.parseSource(test.textContent, {
 							collectionName: "mavo-apps",
 							filename: "countries"
 						});

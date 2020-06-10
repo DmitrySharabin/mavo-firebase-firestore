@@ -69,8 +69,8 @@
 							)
 						]);
 
-						// Get all the config info from the raw URL (attribute value) and the corresponding attribute
-						$.extend(this, _.parseURL(this.source, this.defaults));
+						// Get the config info from the attribute value
+						$.extend(this, _.parseSource(this.source, this.defaults));
 
 						// The app's Firebase configuration
 						const config = {
@@ -170,7 +170,7 @@
 			update: function(url, o) {
 				this.super.update.call(this, url, o);
 
-				$.extend(this, _.parseURL(this.source, this.defaults));
+				$.extend(this, _.parseSource(this.source, this.defaults));
 			},
 
 			get: function(url) {
@@ -318,7 +318,7 @@
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, collection name, filename
-				parseURL: function(source, defaults = {}) {
+				parseSource: function(source, defaults = {}) {
 					const ret = {};
 
 					const url = new URL(source);
