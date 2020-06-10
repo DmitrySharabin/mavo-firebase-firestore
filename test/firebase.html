@@ -32,34 +32,35 @@
 
 			<table class="reftest" data-test="testParseSource" data-columns="3">
 				<tr>
-					<td>https://mavo-demos.firebaseio.com</td>
-					<td>
-						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
-						collectionName: "mavo-apps", filename: "countries" }
+					<td>mavo-demos</td>
+					<td>{
+							projectId: "mavo-demos",
+							collection: "mavo-apps",
+							filename: "countries",
+							databaseURL: "https://mavo-demos.firebaseio.com"
+						}
 					</td>
 				</tr>
 
 				<tr>
-					<td>https://d12n.firebaseio.com</td>
-					<td>
-						{ databaseURL: "d12n.firebaseio.com", projectId: "d12n",
-						collectionName: "mavo-apps", filename: "countries" }
+					<td>d12n/mv-app/people</td>
+					<td>{
+						projectId: "d12n",
+						filename: "people",
+						collection: "mv-app",
+						databaseURL: "https://d12n.firebaseio.com"
+					}
 					</td>
 				</tr>
 
 				<tr>
-					<td>https://mavo-demos.firebaseio.com/people</td>
-					<td>
-						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
-						collectionName: "mavo-apps", filename: "people" }
-					</td>
-				</tr>
-
-				<tr>
-					<td>https://mavo-demos.firebaseio.com/mv-app/people</td>
-					<td>
-						{ databaseURL: "mavo-demos.firebaseio.com", projectId: "mavo-demos",
-						collectionName: "mv-app", filename: "people" }
+					<td>mavo-demos/mv-app/collection/subcollection/people</td>
+					<td>{
+						projectId: "mavo-demos",
+						filename: "people",
+						collection: "mv-app/collection/subcollection",
+						databaseURL: "https://mavo-demos.firebaseio.com"
+					}
 					</td>
 				</tr>
 			</table>
@@ -68,7 +69,7 @@
 				function testParseSource(test, result, expected) {
 					try {
 						const r = Mavo.Backend.Firebase.parseSource(test.textContent, {
-							collectionName: "mavo-apps",
+							collection: "mavo-apps",
 							filename: "countries"
 						});
 						result.textContent = Mavo.toJSON(r);
@@ -137,7 +138,7 @@
 
 		<section
 			mv-app="firebasetest"
-			mv-storage="https://mavo-demos.firebaseio.com/countries"
+			mv-storage="mavo-demos/mavo-apps/countries"
 		>
 			<h1>Basic</h1>
 
@@ -164,7 +165,7 @@
 
 		<section
 			mv-app="dynamic"
-			mv-storage="https://mavo-demos.firebaseio.com/[flip? 'countries' : 'people']"
+			mv-storage="mavo-demos/mavo-apps/[flip? 'countries' : 'people']"
 		>
 			<h1>Dynamic</h1>
 
@@ -193,7 +194,7 @@
 
 		<section
 			mv-app="firebaseupload"
-			mv-storage="https://mavo-demos.firebaseio.com/countries"
+			mv-storage="mavo-demos/mavo-apps/countries"
 			mv-firebase="auth storage"
 		>
 			<h1>Firebase upload</h1>
@@ -213,7 +214,7 @@
 
 			<p>
 				<a
-					href="?urltest-storage=https://mavo-demos.firebaseio.com/countries&urltest-source=%23countries"
+					href="?urltest-storage=mavo-demos/mavo-apps/countries&urltest-source=%23countries"
 					>Click here first for this test to pass.</a
 				>
 			</p>
@@ -240,7 +241,7 @@
 
 		<section
 			mv-app
-			mv-storage="https://mavo-demos.firebaseio.com/countries"
+			mv-storage="mavo-demos/mavo-apps/countries"
 			mv-source="#countries"
 		>
 			<h1>mv-storage=Firebase, mv-source=element</h1>
@@ -266,7 +267,7 @@
 			</table>
 		</section>
 
-		<section mv-app mv-source="https://mavo-demos.firebaseio.com/countries">
+		<section mv-app mv-source="mavo-demos/mavo-apps/countries">
 			<h1>No storage, mv-source=Firebase</h1>
 			<p>Should display data but no editing controls</p>
 
