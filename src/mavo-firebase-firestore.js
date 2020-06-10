@@ -313,8 +313,10 @@
 				// Mandatory and very important! This determines when the backend is used
 				// value: The mv-storage/mv-source/mv-init value
 				test: function(value) {
-					// Returns true if this value applies to this backend
-					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value.trim());
+					// Returns true if this value is not a URL or the "local" keyword
+					value = value.trim();
+
+					return /^(?!https?\:\/\/).*$/.test(value) || value != "local";
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, collection name, filename
