@@ -319,7 +319,9 @@
 
 					value = value.trim();
 
-					return /^(?!https?\:\/\/).*$/.test(value) && !reservedWords.includes(value);
+					return /^(?!https?\:\/\/).*$/.test(value)
+								&& !reservedWords.includes(value)
+								&& value.indexOf("#") !== 0;
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
@@ -338,8 +340,6 @@
 						ret.collection = defaults.collection;
 						ret.filename = defaults.filename;
 					}
-
-					ret.databaseURL = `https://${ret.projectId}.firebaseio.com`;
 
 					return ret;
 				},
