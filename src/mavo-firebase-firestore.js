@@ -113,8 +113,9 @@
 										? "Local"
 										: "Server";
 									// TODO: There's the problem of what to do when local edits conflict with pulled data
-									// if (source === "Server" && ...) {...}
-									mavo.render(doc.data());
+									if (source === "Server") {
+										mavo.render(doc.data()); // Fix for issue #11
+									}
 								},
 								error => mavo.error(`Firebase Realtime: ${error.message}`)
 							);
