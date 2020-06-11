@@ -75,7 +75,7 @@
 						// The app's Firebase configuration
 						const config = {
 							apiKey: mavo.element.getAttribute("mv-firebase-key"),
-							databaseURL: this.databaseURL,
+							databaseURL: `https://${this.projectId}.firebaseio.com`,
 							projectId: this.projectId,
 							authDomain: `${this.projectId}.firebaseapp.com`,
 							storageBucket: `${this.projectId}.appspot.com`
@@ -322,7 +322,7 @@
 					return /^(?!https?\:\/\/).*$/.test(value) && !reservedWords.includes(value);
 				},
 
-				// Parse the mv-storage/mv-source/mv-init value, return Firebase database URL, project id, collection name, filename
+				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
 				parseSource: function(source, defaults = {}) {
 					const ret = {};
 
