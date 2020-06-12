@@ -319,24 +319,30 @@
 
 					value = value.trim();
 
-					return /^(?!https?\:\/\/).*$/.test(value)
-								&& !reservedWords.includes(value)
-								&& value.indexOf("#") !== 0;
+					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
+								|| (/^(?!https?\:\/\/).*$/.test(value) && !reservedWords.includes(value) && value.indexOf("#") !== 0);
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
 				parseSource: function(source, defaults = {}) {
 					const ret = {};
 
+					if (/^https:\/\/.*\.firebaseio\.com\/?/.test(source)) {
+						const url = new URL(source);
+
+						ret.projectId = url.hostname.split(".").shift();
+						source = url.pathname.slice(1);
+					}
+
 					if (source.indexOf("/") > -1) {
 						const parts = source.split("/");
 
-						ret.projectId = parts.shift();
+						ret.projectId = ret.projectId || parts.shift();
 						ret.filename = parts.pop();
 						ret.collection = parts.join("/");
 					}
 					else {
-						ret.projectId = source;
+						ret.projectId = ret.projectId || source;
 						ret.collection = defaults.collection;
 						ret.filename = defaults.filename;
 					}

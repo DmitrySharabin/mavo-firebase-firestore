@@ -60,6 +60,36 @@
 					}
 					</td>
 				</tr>
+
+				<tr>
+					<td>https://mavo-demos.firebaseio.com</td>
+					<td>{
+							projectId: "mavo-demos",
+							collection: "mavo-apps",
+							filename: "countries"
+						}
+					</td>
+				</tr>
+
+				<tr>
+					<td>https://d12n.firebaseio.com/mv-app/people</td>
+					<td>{
+						projectId: "d12n",
+						filename: "people",
+						collection: "mv-app"
+					}
+					</td>
+				</tr>
+
+				<tr>
+					<td>https://mavo-demos.firebaseio.com/mv-app/collection/subcollection/people</td>
+					<td>{
+						projectId: "mavo-demos",
+						filename: "people",
+						collection: "mv-app/collection/subcollection"
+					}
+					</td>
+				</tr>
 			</table>
 
 			<script>
@@ -135,7 +165,7 @@
 
 		<section
 			mv-app="firebasetest"
-			mv-storage="mavo-demos/mavo-apps/countries"
+			mv-storage="https://mavo-demos.firebaseio.com/mavo-apps/countries"
 		>
 			<h1>Basic</h1>
 
