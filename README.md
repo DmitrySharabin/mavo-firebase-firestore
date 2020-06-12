@@ -81,7 +81,7 @@ If you've already added an app to your Firebase project, click **Add app** to di
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_3_3.png)
 
 4. Click **Register app**.
-5. Save for later usage the two values: **databaseURL** and **apiKey**.
+5. Save for later usage the two values: **projectId** and **apiKey**.
 
 ![](https://dmitrysharabin.github.io/mavo-firebase-firestore/images/step_3_5.png)
 
@@ -199,12 +199,12 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 Set the following attributes on the Mavo root element (the one with the `mv-app` attribute):
 
-| Attribute         | Value                                                                      | Example                                                                                                                                                      |
-| ----------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `mv-storage`      | `databaseURL`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) | `mv-storage="https://mavo-demos.firebaseio.com"`. <br />**Note**: You can also use this value in other attributes: `mv-source`, `mv-init`, and `mv-uploads`. |
-| `mv-firebase-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))     | `mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"`                                                                                                  |
+| Attribute         | Value                                                                    | Example                                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `mv-storage`      | `projectId`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) | `mv-storage="mavo-demos"`. <br />**Note**: You can also use this value in other attributes: `mv-source`, `mv-init`, and `mv-uploads`. |
+| `mv-firebase-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))   | `mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"`                                                                           |
 
-**Note**: The **Firebase** backend lets you have multiple Mavo applications in one Firebase project if they have **different names**. That means you can use the `databaseURL` and `apiKey` values multiple times.
+**Note**: The **Firebase** backend lets you have multiple Mavo applications in one Firebase project if they have **different names**. That means you can use the `projectId` and `apiKey` values multiple times.
 
 ### Customization
 
@@ -212,11 +212,13 @@ By default, the **Firebase** backend doesn't enable authentication (`auth`) and 
 
 **Note**: Keep in mind that if the authentication feature is on, **only signed-in users can edit app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). That might change soon. Stay in touch! 😊
 
-By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection and the name of the corresponding file after the `databaseURL`. The `databaseURL`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="databaseURL/collectionName/filename"`. You can also leave the collection name default and specify only the file name, like so: `mv-storage="databaseURL/filename"` (see [example](#demo) below).
+By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection (and a path to it) and the name of the corresponding file after the `projectId`. The `projectId`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="projectId/path/to/collection/filename"`. You can also leave the default filename and specify only the collection, like so: `mv-storage="projectId/path/to/collection"`.
+
+**Note**: For now, there is no way to specify *only* the filename without specifying the collection. The only way to do that is to provide the full path, with the collection name (including the default one). See the [example](#demo) below.
 
 Need to get realtime updates? Add `realtime` to the `mv-firebase` attribute value. If there is no `mv-firebase` attribute, simply add `mv-firebase="realtime"` to the root of your app.
 
-The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
+The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder (including the full path) via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
 
 ## Demo
 
@@ -224,7 +226,7 @@ The files in the storage bucket are presented in a _hierarchical structure_, jus
 <main
     mv-app="myAwesomeApp"
     mv-plugins="firebase-firestore"
-    mv-storage="https://mavo-demos.firebaseio.com/todo"
+    mv-storage="mavo-demos/mavo-apps/todo"
     mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
     mv-firebase="auth">
     <header>
