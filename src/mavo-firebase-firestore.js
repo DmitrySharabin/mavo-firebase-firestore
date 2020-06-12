@@ -338,7 +338,11 @@
 						const parts = source.split("/");
 
 						ret.projectId = ret.projectId || parts.shift();
-						ret.filename = parts.pop();
+
+						// If source without projectId has an odd number of parts,
+						// an app author specified only collection, so we should use the default filename.
+						// Otherwise, we have both: collection and filename
+						ret.filename = parts.length % 2 ? defaults.filename : parts.pop();
 						ret.collection = parts.join("/");
 					}
 					else {
