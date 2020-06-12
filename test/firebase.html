@@ -32,7 +32,7 @@
 
 			<table class="reftest" data-test="testParseSource" data-columns="3">
 				<tr>
-					<td>mavo-demos</td>
+					<td>firebase://mavo-demos</td>
 					<td>{
 							projectId: "mavo-demos",
 							collection: "mavo-apps",
@@ -42,7 +42,7 @@
 				</tr>
 
 				<tr>
-					<td>d12n/mv-app/people</td>
+					<td>firebase://d12n/mv-app/people</td>
 					<td>{
 						projectId: "d12n",
 						filename: "people",
@@ -52,7 +52,7 @@
 				</tr>
 
 				<tr>
-					<td>mavo-demos/mv-app/collection/subcollection/people</td>
+					<td>firebase://mavo-demos/mv-app/collection/subcollection/people</td>
 					<td>{
 						projectId: "mavo-demos",
 						filename: "people",
@@ -92,7 +92,7 @@
 				</tr>
 
 				<tr title="Rename collection">
-					<td>d12n/mv-app</td>
+					<td>firebase://d12n/mv-app</td>
 					<td>{
 						projectId: "d12n",
 						filename: "countries",
@@ -102,7 +102,7 @@
 				</tr>
 
 				<tr title="Specify only collection">
-					<td>d12n/mv-app/collection/subcollection</td>
+					<td>firebase://d12n/mv-app/collection/subcollection</td>
 					<td>{
 						projectId: "d12n",
 						filename: "countries",
@@ -212,7 +212,7 @@
 
 		<section
 			mv-app="dynamic"
-			mv-storage="mavo-demos/mavo-apps/[flip? 'countries' : 'people']"
+			mv-storage="firebase://mavo-demos/mavo-apps/[flip? 'countries' : 'people']"
 		>
 			<h1>Dynamic</h1>
 
@@ -241,7 +241,7 @@
 
 		<section
 			mv-app="firebaseupload"
-			mv-storage="mavo-demos/mavo-apps/countries"
+			mv-storage="firebase://mavo-demos/mavo-apps/countries"
 			mv-firebase="auth storage"
 		>
 			<h1>Firebase upload</h1>
@@ -261,7 +261,7 @@
 
 			<p>
 				<a
-					href="?urltest-storage=mavo-demos/mavo-apps/countries&urltest-source=%23countries"
+					href="?urltest-storage=firebase://mavo-demos/mavo-apps/countries&urltest-source=%23countries"
 					>Click here first for this test to pass.</a
 				>
 			</p>
@@ -288,7 +288,7 @@
 
 		<section
 			mv-app
-			mv-storage="mavo-demos/mavo-apps/countries"
+			mv-storage="firebase://mavo-demos/mavo-apps/countries"
 			mv-source="#countries"
 		>
 			<h1>mv-storage=Firebase, mv-source=element</h1>
@@ -314,7 +314,7 @@
 			</table>
 		</section>
 
-		<section mv-app mv-source="mavo-demos/mavo-apps/countries">
+		<section mv-app mv-source="firebase://mavo-demos/mavo-apps/countries">
 			<h1>No storage, mv-source=Firebase</h1>
 			<p>Should display data but no editing controls</p>
 

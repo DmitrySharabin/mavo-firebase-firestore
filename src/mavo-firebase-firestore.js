@@ -314,13 +314,10 @@
 				// Mandatory and very important! This determines when the backend is used
 				// value: The mv-storage/mv-source/mv-init value
 				test: function(value) {
-					// Returns true if this value is not a URL or the "local" or "none" keywords
-					const reservedWords = ["local", "none"];
-
 					value = value.trim();
 
 					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
-								|| (/^(?!https?\:\/\/).*$/.test(value) && !reservedWords.includes(value) && value.indexOf("#") !== 0);
+								|| /^firebase:\/\/.*/.test(value);
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
@@ -332,6 +329,9 @@
 
 						ret.projectId = url.hostname.split(".").shift();
 						source = url.pathname.slice(1);
+					}
+					else {
+						source = source.replace("firebase://", "");
 					}
 
 					if (source.indexOf("/") > -1) {
