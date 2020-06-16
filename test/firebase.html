@@ -211,10 +211,39 @@
 		</section>
 
 		<section
-			mv-app="dynamic"
+			mv-app="dynamicfilename"
 			mv-storage="firebase://mavo-demos/mavo-apps/[if(flip, 'countries', 'people')]"
 		>
-			<h1>Dynamic</h1>
+			<h1>Dynamic Filename</h1>
+
+			<p><input type="checkbox" property="flip" /> Check me</p>
+
+			<table class="reftest">
+				<tr>
+					<td>
+						<ul>
+							<li property="country" mv-multiple>
+								<span property="code">Code</span>
+								<span property="name">Name</span>
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>Online</li>
+							<li>us United States</li>
+							<li>gb United Kingdom</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</section>
+
+		<section
+			mv-app="dynamiccollection"
+			mv-storage="firebase://mavo-demos/[if(flip, 'mavo-apps/countries', 'mavo-apps/collection/subcollection/countries')]"
+		>
+			<h1>Dynamic Collection</h1>
 
 			<p><input type="checkbox" property="flip" /> Check me</p>
 
