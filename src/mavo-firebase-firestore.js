@@ -73,7 +73,7 @@
 						$.extend(this, _.parseSource(this.source, this.defaults));
 
 						// The app's Firebase configuration
-						const config = {
+						this.firebaseConfig = {
 							apiKey: mavo.element.getAttribute("mv-firebase-key"),
 							databaseURL: `https://${this.projectId}.firebaseio.com`,
 							projectId: this.projectId,
@@ -84,10 +84,10 @@
 						// Initialize Cloud Firestore through Firebase
 						// Support using multiple apps on the same page
 						if (!firebase.apps.length) {
-							this.app = firebase.initializeApp(config);
+							this.app = firebase.initializeApp(this.firebaseConfig);
 						}
 						else {
-							this.app = firebase.initializeApp(config, mavo.id);
+							this.app = firebase.initializeApp(this.firebaseConfig, mavo.id);
 						}
 
 						// To allow offline persistence, we MUST enable it foremost
