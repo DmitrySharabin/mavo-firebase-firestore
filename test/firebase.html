@@ -212,7 +212,7 @@
 
 		<section
 			mv-app="dynamic"
-			mv-storage="firebase://mavo-demos/mavo-apps/[flip? 'countries' : 'people']"
+			mv-storage="firebase://mavo-demos/mavo-apps/[if(flip, 'countries', 'people')]"
 		>
 			<h1>Dynamic</h1>
 
