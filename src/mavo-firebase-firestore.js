@@ -108,15 +108,7 @@
 						if (this.features.realtime) {
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
-								doc => {
-									const source = doc.metadata.hasPendingWrites
-										? "Local"
-										: "Server";
-									// TODO: There's the problem of what to do when local edits conflict with pulled data
-									if (source === "Server") {
-										mavo.render(doc.data()); // Fix for issue #11
-									}
-								},
+								doc => _.updatesHandler(doc, mavo),
 								error => mavo.error(`Firebase Realtime: ${error.message}`)
 							);
 						}
@@ -379,6 +371,21 @@
 
 					// No template, return default set
 					return ret;
+				},
+
+				/**
+				 * A handler for realtime updates of a document
+				 * @param {Object} snapshot A document snapshot
+				 * @param {Object} mavo Mavo instance
+				 */
+				updatesHandler: function(snapshot, mavo) {
+					const source = snapshot.metadata.hasPendingWrites
+						? "Local"
+						: "Server";
+					// TODO: There's the problem of what to do when local edits conflict with pulled data
+					if (source === "Server") {
+						mavo.render(snapshot.data()); // Fix for issue #11
+					}
 				}
 			}
 		})
