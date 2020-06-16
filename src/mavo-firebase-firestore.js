@@ -164,6 +164,21 @@
 				this.super.update.call(this, url, o);
 
 				$.extend(this, _.parseSource(this.source, this.defaults));
+
+				if (this.app) {
+					this.db = this.app.firestore().collection(this.collection);
+
+					if (this.unsubscribe) {
+						// Stop listening to changes
+						this.unsubscribe();
+
+						// Get realtime updates for a new document
+						this.unsubscribe = this.db.doc(this.filename).onSnapshot(
+							doc => _.updatesHandler(doc, o.mavo),
+							error => o.mavo.error(`Firebase Realtime: ${error.message}`)
+						);
+					}
+				}
 			},
 
 			get: function(url) {
