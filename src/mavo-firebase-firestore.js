@@ -73,7 +73,7 @@
 						$.extend(this, _.parseSource(this.source, this.defaults));
 
 						// The app's Firebase configuration
-						this.firebaseConfig = {
+						const config = {
 							apiKey: mavo.element.getAttribute("mv-firebase-key"),
 							databaseURL: `https://${this.projectId}.firebaseio.com`,
 							projectId: this.projectId,
@@ -85,11 +85,11 @@
 						// We want all mavo apps with the same projectId share the same instance of Firebase app
 						// If there is no previously created Firebase app with the specified projectId, create one
 						if (!firebase.apps.length) {
-							this.app = firebase.initializeApp(this.firebaseConfig);
+							this.app = firebase.initializeApp(config);
 						}
 						else {
 							this.app = firebase.apps.find(app => app.options.projectId === this.projectId)
-								|| firebase.initializeApp(this.firebaseConfig, this.projectId);
+								|| firebase.initializeApp(config, this.projectId);
 						}
 
 						// To allow offline persistence, we MUST enable it foremost
