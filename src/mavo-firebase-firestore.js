@@ -297,6 +297,7 @@
 										if (storage
 											&& storage.id === this.id
 											&& storage !== this
+											&& storage.projectId !== this.projectId
 											&& storage.features.auth
 											&& !storage.user) {
 												storage.app.auth().signInWithCredential(result.credential);
