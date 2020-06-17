@@ -82,26 +82,26 @@
 						};
 
 						// Initialize Cloud Firestore through Firebase
-						// Support using multiple apps on the same page
-						if (!firebase.apps.length) {
-							this.app = firebase.initializeApp(this.firebaseConfig);
-						}
-						else {
-							this.app = firebase.initializeApp(this.firebaseConfig, mavo.id);
-						}
+						// We want all mavo apps with the same projectId share the same instance of Firebase app
+						// If there is no previously created Firebase app with the specified projectId, create one
+						this.app = firebase.apps.find(app => app.name === this.projectId)
+							|| firebase.initializeApp(this.firebaseConfig, this.projectId);
 
 						// To allow offline persistence, we MUST enable it foremost
 						// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
-						this.app.firestore().enablePersistence({ synchronizeTabs: true })
-							.catch(error => {
-								if (error.code === "unimplemented") {
-									// The current browser does not support all of the
-									// features required to enable persistence
-									Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
+						if (!this.app.firestore()._persistenceKey) {
+							// Enable offline persistence only once per Firebase app
+							this.app.firestore().enablePersistence({ synchronizeTabs: true })
+								.catch(error => {
+									if (error.code === "unimplemented") {
+										// The current browser does not support all of the
+										// features required to enable persistence
+										Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
 
-									this.mavo.error(`Firebase Offline: ${error.message}`);
-								}
-							});
+										this.mavo.error(`Firebase Offline: ${error.message}`);
+									}
+								});
+						}
 
 						this.db = this.app.firestore().collection(this.collection);
 
