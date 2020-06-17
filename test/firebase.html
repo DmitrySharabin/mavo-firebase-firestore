@@ -269,6 +269,35 @@
 		</section>
 
 		<section
+		mv-app="dynamicbackend"
+		mv-source="[if(flip, 'https://github.com/mavoweb/test/blob/master/data/countries.json', 'firebase://mavo-demos/mavo-apps/collection/subcollection/countries')]"
+	>
+		<h1>Dynamic Backend</h1>
+
+		<p><input type="checkbox" property="flip" /> Check me</p>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul>
+						<li property="country" mv-multiple>
+							<span property="code">Code</span>
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Online</li>
+						<li>us United States</li>
+						<li>gb United Kingdom</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+		<section
 			mv-app="firebaseupload"
 			mv-storage="firebase://mavo-demos/mavo-apps/countries"
 			mv-firebase="auth storage"
