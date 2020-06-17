@@ -417,7 +417,7 @@
 		</script>
 
 		<script>
-			$$("[mv-app]").forEach(section =>
+			$$("[mv-app]:not([mv-firebase-key])").forEach(section =>
 				section.setAttribute(
 					"mv-firebase-key",
 					"AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
