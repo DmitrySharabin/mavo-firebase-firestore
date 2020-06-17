@@ -84,8 +84,13 @@
 						// Initialize Cloud Firestore through Firebase
 						// We want all mavo apps with the same projectId share the same instance of Firebase app
 						// If there is no previously created Firebase app with the specified projectId, create one
-						this.app = firebase.apps.find(app => app.name === this.projectId)
-							|| firebase.initializeApp(this.firebaseConfig, this.projectId);
+						if (!firebase.apps.length) {
+							this.app = firebase.initializeApp(this.firebaseConfig);
+						}
+						else {
+							this.app = firebase.apps.find(app => app.options.projectId === this.projectId)
+								|| firebase.initializeApp(this.firebaseConfig, this.projectId);
+						}
 
 						// To allow offline persistence, we MUST enable it foremost
 						// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
