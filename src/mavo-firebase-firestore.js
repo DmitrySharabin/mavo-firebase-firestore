@@ -8,6 +8,13 @@
 (function($) {
 	"use strict";
 
+	const PROVIDERS = {
+		"google": {},
+		"facebook": {},
+		"twitter": {},
+		"github": {}
+	};
+
 	const _ = Mavo.Backend.register(
 		$.Class({
 			extends: Mavo.Backend,
@@ -27,7 +34,9 @@
 						auth: false,
 						storage: false,
 						realtime: false
-					}
+					},
+					authProviders:
+						mavo.element.getAttribute("mv-firebase-auth")?.split(/\s+/) || []
 				};
 
 				$.extend(this, this.defaults);
@@ -37,8 +46,18 @@
 
 				this.features = _.getOptions(template, this.features);
 
+				// If either of the auth providers is specified, we must enable the auth feature
+				if (this.authProviders.length) {
+					this.features.auth = true;
+				}
+
 				if (this.features.auth) {
 					this.permissions.on("login");
+
+					// If none of the auth providers is specified, by default Google is used
+					if (!this.authProviders.length) {
+						this.authProviders = ["google"];
+					}
 				}
 				else {
 					this.permissions.on(["edit", "save"]);
@@ -281,7 +300,7 @@
 							resolve(this.user);
 						}
 						else {
-							const provider = new firebase.auth.GoogleAuthProvider();
+							const provider = eval(_.buildProvider("google"));
 
 							// Apply the default browser preference
 							firebase.auth().useDeviceLanguage();
@@ -392,6 +411,16 @@
 					if (source === "Server") {
 						mavo.render(snapshot.data()); // Fix for issue #11
 					}
+				},
+
+				/**
+				 * Build a string for creating an instance of the specified provider object (via eval)
+				 * @param {String} provider An auth provider name
+				 */
+				buildProvider: function(provider) {
+					provider = provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
+
+					return `new firebase.auth.${provider}AuthProvider()`;
 				}
 			}
 		})
