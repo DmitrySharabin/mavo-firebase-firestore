@@ -422,7 +422,7 @@
 
 					const all = Object.keys(defaults);
 
-					if (template && (template = template.trim())) {
+					if (template = template?.trim()) {
 						let ids = template.split(/\s+/);
 
 						// Drop duplicates (last one wins)
