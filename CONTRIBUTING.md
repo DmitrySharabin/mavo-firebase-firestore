@@ -8,7 +8,8 @@ gulp build
 cd dist
 mkdir -m 777 X.Y.Z
 cp mavo-firebase-firestore.js ../
-mv *.js X.Y.Z
+cp mavo-firebase-firestore.css ../
+mv *.* X.Y.Z
 cd ..
 ```
 
