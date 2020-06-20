@@ -5,18 +5,22 @@ To use **Firebase** backend, follow the setup instructions below.
 ## Table of Contents
 
   - [Setup Firebase](#setup-firebase)
-    - [**Step 1**: Sign into Firebase using your Google account](#step-1-sign-into-firebase-using-your-google-account)
-    - [**Step 2**: Create a Firebase project](#step-2-create-a-firebase-project)
-    - [**Step 3**: Register your app with Firebase](#step-3-register-your-app-with-firebase)
-    - [**Step 4**: Activate Cloud Firestore](#step-4-activate-cloud-firestore)
-    - [**Step 5**: Set up Cloud Firestore security rules](#step-5-set-up-cloud-firestore-security-rules)
-    - [**Step 6**: Enable Google Sign-In in the Firebase console](#step-6-enable-google-sign-in-in-the-firebase-console)
-    - [**Step 7**: Whitelist your domain](#step-7-whitelist-your-domain)
-    - [**Step 8**: Create a default Storage bucket](#step-8-create-a-default-storage-bucket)
-    - [**Step 9**: Set up security rules for the default Storage bucket](#step-9-set-up-security-rules-for-the-default-storage-bucket)
+    - [**Step 1:** Sign into Firebase using your Google account](#step-1-sign-into-firebase-using-your-google-account)
+    - [**Step 2:** Create a Firebase project](#step-2-create-a-firebase-project)
+    - [**Step 3:** Register your app with Firebase](#step-3-register-your-app-with-firebase)
+    - [**Step 4:** Activate Cloud Firestore](#step-4-activate-cloud-firestore)
+    - [**Step 5:** Set up Cloud Firestore security rules](#step-5-set-up-cloud-firestore-security-rules)
+    - [**Step 6:** Enable Google Sign-In in the Firebase console](#step-6-enable-google-sign-in-in-the-firebase-console)
+    - [**Step 7:** Whitelist your domain](#step-7-whitelist-your-domain)
+    - [**Step 8:** Create a default Storage bucket](#step-8-create-a-default-storage-bucket)
+    - [**Step 9:** Set up security rules for the default Storage bucket](#step-9-set-up-security-rules-for-the-default-storage-bucket)
   - [Setup Mavo application](#setup-mavo-application)
     - [Customization](#customization)
-    - [Demo](#demo)
+    - [Authentication with Firebase using Google, Facebook, Twitter, or GitHub accounts](#authentication-with-firebase-using-google-facebook-twitter-or-github-accounts)
+      - [Authenticate Using Facebook](#authenticate-using-facebook)
+      - [Authenticate Using Twitter](#authenticate-using-twitter)
+      - [Authenticate Using GitHub](#authenticate-using-github)
+  - [Demo](#demo)
   - [Security rules examples](#security-rules-examples)
     - [General rules](#general-rules)
       - [Cloud Firestore](#cloud-firestore)
@@ -219,6 +223,41 @@ By default, the **Firebase** backend stores data in the `mavo-apps` collection i
 Need to get realtime updates? Add `realtime` to the `mv-firebase` attribute value. If there is no `mv-firebase` attribute, simply add `mv-firebase="realtime"` to the root of your app.
 
 The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder (including the full path) via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
+
+### Authentication with Firebase using Google, Facebook, Twitter, or GitHub accounts
+
+You can let your users authenticate with Firebase using their Google, Facebook, Twitter, or GitHub accounts by integrating the corresponding services into your app. To do so, add the `mv-firebase-auth` attribute to the root of your Mavo app. Its value is a space-separated set of names of services you want to enable. For example: `mv-firebase-auth="google twitter github"`.
+
+**Note**: If you use `mv-firebase-auth` there is no need to add `mv-firebase="auth"` to the root element.
+
+#### Authenticate Using Facebook
+
+1. On the [Facebook for Developers](https://developers.facebook.com/) site, get the **App ID** and an **App Secret** for your app.
+2. Enable Facebook Login:
+    1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
+    2. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
+    3. Make sure your Firebase **OAuth redirect URI** (e.g. `mavo-demos.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the [Facebook for Developers](https://developers.facebook.com/) site in the **Product Settings > Facebook Login** config.
+3. Click **Save**.
+
+#### Authenticate Using Twitter
+
+1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
+2. On the **Sign in method** tab, enable the **Twitter** provider.
+3. Add the **API key** and **API secret** from that provider's developer console to the provider configuration:
+    1. [Register your app](https://apps.twitter.com/) as a developer application on Twitter and get your app's OAuth **API key** and **API secret**.
+    2. Make sure your Firebase **OAuth redirect URI** (e.g. `mavo-demos.firebaseapp.com/__/auth/handler`) is set as your **Authorization callback URL** in your app's settings page on your [Twitter app's config](https://apps.twitter.com/).
+4. Click **Save**.
+
+#### Authenticate Using GitHub
+
+1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
+2. On the **Sign in method** tab, enable the **GitHub** provider.
+3. Add the **Client ID** and **Client Secret** from that provider's developer console to the provider configuration:
+    1. [Register your app](https://github.com/settings/applications/new) as a developer application on GitHub and get your app's OAuth 2.0 **Client ID** and **Client Secret**.
+    2. Make sure your Firebase **OAuth redirect URI** (e.g. `mavo-demos.firebaseapp.com/__/auth/handler`) is set as your **Authorization callback URL** in your app's settings page on your [GitHub app's config](https://github.com/settings/developers).
+4. Click **Save**.
+
+**Note**: Authentication Using Google was described [here](#step-6-enable-google-sign-in-in-the-firebase-console).
 
 ## Demo
 
