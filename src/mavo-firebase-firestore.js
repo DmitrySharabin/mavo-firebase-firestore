@@ -15,6 +15,45 @@
 		"github": {}
 	};
 
+	Mavo.Plugins.register("firebase-firestore", {
+		hooks: {
+			"init-start": function(mavo) {
+				// Add buttons for auth providers to the Mavo bar
+				// Show them only if the Firebase backend is used and any auth provider is specified
+				Object.keys(PROVIDERS).forEach(p => {
+					const id = `firebase-auth-${p}`;
+
+					Mavo.UI.Bar.controls[id] = {
+						create: function(custom) {
+							return custom || $.create("button", {
+								type: "button",
+								className: `mv-${id}`,
+								textContent: mavo._(id),
+								events: {
+									click: () => {
+										mavo.primaryBackend.provider = p;
+										mavo.primaryBackend.login(false);
+									}
+								}
+							});
+						},
+						permission: "login",
+						condition: function() {
+							return !!mavo.primaryBackend.projectId && mavo.primaryBackend.authProviders.includes(p);
+						}
+					};
+				});
+
+				// Hide the Login button if either of auth providers is specified
+				$.extend(Mavo.UI.Bar.controls.login, {
+					condition: function() {
+						return !!mavo.primaryBackend.projectId && !mavo.primaryBackend.authProviders.length;
+					}
+				});
+			}
+		}
+	});
+
 	const _ = Mavo.Backend.register(
 		$.Class({
 			extends: Mavo.Backend,
@@ -430,6 +469,10 @@
 		"firebase-enable-auth": "You might need to enable authorization in your app. To do so, add mv-firebase=\"auth\" to the Mavo root.",
 		"firebase-enable-storage": "It seems your app does not support uploads. To enable uploads, add mv-firebase=\"storage\" to the Mavo root.",
 		"firebase-check-security-rules": "Please check the security rules for your app. They might be inappropriately set. For details, see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.",
-		"firebase-offline-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers."
+		"firebase-offline-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.",
+		"firebase-auth-google": "Google",
+		"firebase-auth-facebook": "Facebook",
+		"firebase-auth-twitter": "Twitter",
+		"firebase-auth-github": "GitHub"
 	});
 })(Bliss);
