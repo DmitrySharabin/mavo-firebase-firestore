@@ -77,11 +77,7 @@ gulp.task("default", function() {
 				presets: [
 					[
 						"@babel/env",
-						{
-							targets: {
-								browsers: ["last 4 versions", "IE 11"]
-							}
-						}
+						{}
 					]
 				],
 				compact: false
