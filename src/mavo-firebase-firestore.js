@@ -74,6 +74,7 @@
 						storage: false,
 						realtime: false
 					},
+					authProviders: _.getAuthProviders(mavo.element.getAttribute("mv-firebase-auth") || "", PROVIDERS),
 					provider: undefined
 				};
 
@@ -447,6 +448,30 @@
 					if (source === "Server") {
 						mavo.render(snapshot.data()); // Fix for issue #11
 					}
+				},
+
+				/**
+				 * Parse the list of auth providers
+				 * @param {String} template The value to parse or an empty string
+				 * @param {Object} defaults Default set of auth providers
+				 */
+				getAuthProviders: function(template, defaults) {
+					const all = Object.keys(defaults);
+
+					if (template = template?.trim()) {
+						let ids = template.split(/\s+/);
+
+						// Convert all auth providers names to lowercase and drop duplicates
+						ids = Mavo.Functions.unique(ids.map(id => id.toLowerCase()));
+
+						// Drop not supported auth providers
+						ids = ids.filter(id => all.includes(id));
+
+						return ids;
+					}
+
+					// No auth providers provided
+					return [];
 				},
 
 				/**

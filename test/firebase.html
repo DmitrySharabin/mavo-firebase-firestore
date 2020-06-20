@@ -183,6 +183,81 @@
 			</script>
 		</section>
 
+		<section>
+			<h1>getAuthProviders</h1>
+
+			<table class="reftest" data-test="testGetAuthProviders" data-columns="3">
+				<thead>
+					<th>mv-firebase-auth value</th>
+					<th>Actual</th>
+					<th>Expected</th>
+				</thead>
+				<tr title="Default">
+					<td>&nbsp;</td>
+					<td>[]</td>
+				</tr>
+
+				<tr title="Basic">
+					<td>facebook google</td>
+					<td>[
+						"facebook",
+						"google"
+					]
+					</td>
+				</tr>
+
+				<tr title="Case insensitive">
+					<td>Twitter GitHub</td>
+					<td>[
+						"twitter",
+						"github"
+					]
+					</td>
+				</tr>
+
+				<tr title="With duplicates">
+					<td>google facebook google twitter twitter github</td>
+					<td>[
+						"google",
+						"facebook",
+						"twitter",
+						"github"
+					]
+					</td>
+				</tr>
+
+				<tr title="Ignore not supported providers">
+					<td>twitter foo bar github</td>
+					<td>[
+						"twitter",
+						"github"
+					]
+					</td>
+				</tr>
+			</table>
+
+			<script>
+				function testGetAuthProviders(test, result, expected) {
+					try {
+						const r = Mavo.Backend.Firebase.getAuthProviders(test.textContent, {
+							"google": {},
+							"facebook": {},
+							"twitter": {},
+							"github": {}
+						});
+						result.textContent = Mavo.toJSON(r);
+
+						eval("var exp = " + expected.textContent);
+						return Test.equals(r, exp);
+					} catch (e) {
+						console.error(e);
+						result.textContent = "ERROR";
+						return false;
+					}
+				}
+			</script>
+		</section>
+
 		<section
 			mv-app="firebasetest"
 			mv-storage="https://mavo-demos.firebaseio.com/mavo-apps/countries"
