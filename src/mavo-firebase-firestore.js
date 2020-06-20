@@ -74,8 +74,7 @@
 						storage: false,
 						realtime: false
 					},
-					authProviders:
-						mavo.element.getAttribute("mv-firebase-auth")?.split(/\s+/) || []
+					provider: undefined
 				};
 
 				$.extend(this, this.defaults);
@@ -95,7 +94,7 @@
 
 					// If none of the auth providers is specified, by default Google is used
 					if (!this.authProviders.length) {
-						this.authProviders = ["google"];
+						this.provider = "google";
 					}
 				}
 				else {
@@ -339,14 +338,12 @@
 							resolve(this.user);
 						}
 						else {
-							const provider = eval(_.buildProvider("google"));
-
 							// Apply the default browser preference
 							firebase.auth().useDeviceLanguage();
 
 							this.app
 								.auth()
-								.signInWithPopup(provider)
+								.signInWithPopup(_.buildProvider(this.provider))
 								.catch(error => {
 									this.mavo.error(`Firebase Auth: ${error.message}`);
 									reject(error);
@@ -453,13 +450,13 @@
 				},
 
 				/**
-				 * Build a string for creating an instance of the specified provider object (via eval)
+				 * Build an instance of the specified provider object
 				 * @param {String} provider An auth provider name
 				 */
 				buildProvider: function(provider) {
 					provider = provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
 
-					return `new firebase.auth.${provider}AuthProvider()`;
+					return eval(`new firebase.auth.${provider}AuthProvider()`);
 				}
 			}
 		})
