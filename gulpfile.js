@@ -61,6 +61,12 @@ gulp.task("minify-es5", function() {
 		.pipe(gulp.dest("dist"));
 });
 
+gulp.task("copyCSS", function() {
+	return gulp
+		.src("src/mavo-firebase-firestore.css")
+		.pipe(gulp.dest("dist"));
+});
+
 gulp.task("default", function() {
 	return gulp
 		.src("src/mavo-firebase-firestore.js")
@@ -84,5 +90,6 @@ exports.build = gulp.parallel(
 	"inject-version",
 	"transpile",
 	"minify",
-	"minify-es5"
+	"minify-es5",
+	"copyCSS"
 );
