@@ -375,7 +375,7 @@
 					value = value.trim();
 
 					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
-								|| /^firebase:\/\/.*/.test(value);
+						|| /^firebase:\/\/.*/.test(value);
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
