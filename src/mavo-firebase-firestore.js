@@ -16,6 +16,10 @@
 	};
 
 	Mavo.Plugins.register("firebase-firestore", {
+		dependencies: [
+			"mavo-firebase-firestore.css"
+		],
+
 		hooks: {
 			"init-start": function(mavo) {
 				// Add buttons for auth providers to the Mavo bar
