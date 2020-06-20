@@ -9,7 +9,7 @@ cd dist
 mkdir -m 777 X.Y.Z
 cp mavo-firebase-firestore.js ../
 cp mavo-firebase-firestore.css ../
-mv *.* X.Y.Z
+mv *.js *.css X.Y.Z
 cd ..
 ```
 
