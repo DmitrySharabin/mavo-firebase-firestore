@@ -483,7 +483,11 @@
 				 * @param {String} provider An auth provider name
 				 */
 				buildProvider: function(provider) {
-					provider = provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
+					// Fallback to Google
+					provider = provider || "google";
+
+					// Make provider name title-cased
+					provider = provider.charAt(0).toUpperCase() + provider.slice(1);
 
 					return eval(`new firebase.auth.${provider}AuthProvider()`);
 				}
