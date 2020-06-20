@@ -23,11 +23,7 @@ gulp.task("transpile", function() {
 				presets: [
 					[
 						"@babel/env",
-						{
-							targets: {
-								browsers: ["last 4 versions", "IE 11"]
-							}
-						}
+						{}
 					]
 				],
 				compact: false
@@ -54,11 +50,7 @@ gulp.task("minify-es5", function() {
 				presets: [
 					[
 						"@babel/env",
-						{
-							targets: {
-								browsers: ["last 4 versions", "IE 11"]
-							}
-						}
+						{}
 					]
 				],
 				compact: false
