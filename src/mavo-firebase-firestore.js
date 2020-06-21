@@ -33,13 +33,11 @@
 								type: "button",
 								className: `mv-${id}`,
 								textContent: mavo._(id),
-								events: {
-									click: () => {
-										mavo.primaryBackend.provider = p;
-										mavo.primaryBackend.login(false);
-									}
-								}
 							});
+						},
+						action: function() {
+							mavo.primaryBackend.provider = p;
+							mavo.primaryBackend.login(false);
 						},
 						permission: "login",
 						condition: function() {
