@@ -101,7 +101,7 @@
 					}
 				}
 				else {
-					this.permissions.on(["edit", "save"]);
+					this.permissions.on("edit");
 				}
 
 				this.ready =
@@ -219,10 +219,6 @@
 
 						return Promise.resolve();
 					});
-
-				if (this.features.auth) {
-					this.login(true);
-				}
 			},
 
 			update: function(url, o) {
