@@ -259,6 +259,41 @@ You can let your users authenticate with Firebase using their Google, Facebook, 
 
 **Note**: Authentication Using Google was described [here](#step-6-enable-google-sign-in-in-the-firebase-console).
 
+### Customizing Text & Localization
+
+The plugin provides a set of phrases you can use, change, and localize. Here is the list of `id`s of these phrases and their default values:
+
+#### Messages in the console
+
+| id                               | Default Value                                                                                                                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `firebase-enable-auth`           | You might need to enable authorization in your app. To do so, add mv-firebase=\"auth\" to the Mavo root.                                                                       |
+| `firebase-enable-storage`        | It seems your app does not support uploads. To enable uploads, add mv-firebase=\"storage\" to the Mavo  root.                                                                  |
+| `firebase-check-security-rules`  | Please check the security rules for your app. They might be inappropriately set. For details,   see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples. |
+| `firebase-offline-unimplemented` | The current browser does not support all of the features required to enable offline  persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.  |
+
+#### Mavo toolbar buttons
+
+| id                       | Default Value |
+| ------------------------ | ------------- |
+| `firebase-auth-google`   | Google        |
+| `firebase-auth-facebook` | Facebook      |
+| `firebase-auth-twitter`  | Twitter       |
+| `firebase-auth-github`   | GitHub        |
+
+### Styling with CSS
+
+You can style Mavo toolbar buttons separately via classes.
+
+| Button   | Class                       |
+| -------- | --------------------------- |
+| Google   | `mv-firebase-auth-google`   |
+| Facebook | `mv-firebase-auth-facebook` |
+| Twitter  | `mv-firebase-auth-twitter`  |
+| GitHub   | `mv-firebase-auth-github`   |
+
+**Note**: You may also find useful this selector `.mv-bar.mv-ui button[class*="mv-firebase-auth"]::before` to style the icon before the log-in buttons or change the icon itself.
+
 ## Demo
 
 ```markup
