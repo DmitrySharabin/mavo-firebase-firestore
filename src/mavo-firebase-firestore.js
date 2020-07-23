@@ -101,7 +101,7 @@
 					}
 				}
 				else {
-					this.permissions.on("edit");
+					this.permissions.on(["edit", "save"]);
 				}
 
 				this.ready =
