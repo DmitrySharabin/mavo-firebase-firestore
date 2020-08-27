@@ -17,7 +17,7 @@
 
 	Mavo.Plugins.register("firebase-firestore", {
 		dependencies: [
-			"mavo-firebase-firestore.css"
+			"https://dmitrysharabin.github.io/mavo-firebase-firestore/mavo-firebase-firestore.css"
 		],
 
 		hooks: {
