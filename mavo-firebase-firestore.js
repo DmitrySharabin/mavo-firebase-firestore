@@ -3,7 +3,7 @@
 /**
  * Firebase backend plugin for Mavo
  * @author Dmitry Sharabin and contributors
- * @version v0.3.3
+ * @version %%VERSION%%
  */
 (function($) {
 	"use strict";
@@ -17,7 +17,7 @@
 
 	Mavo.Plugins.register("firebase-firestore", {
 		dependencies: [
-			"https://dmitrysharabin.github.io/mavo-firebase-firestore/mavo-firebase-firestore.css"
+			"https://cdn.jsdelivr.net/gh/DmitrySharabin/mavo-firebase-firestore/mavo-firebase-firestore.css"
 		],
 
 		hooks: {
@@ -444,7 +444,14 @@
 						: "Server";
 					// TODO: There's the problem of what to do when local edits conflict with pulled data
 					if (source === "Server") {
-						mavo.render(snapshot.data()); // Fix for issue #11
+						// When an app author enables the autosave feature,
+						// we don't want data loss from race condition with autosave and realtime updates.
+						// We must save the state of the autosave feature for not to enable it by mistake
+						const autoSaveState = mavo.autoSave;
+
+						mavo.autoSave = false;
+						mavo.render(snapshot.data());
+						mavo.autoSave = autoSaveState;
 					}
 				},
 
