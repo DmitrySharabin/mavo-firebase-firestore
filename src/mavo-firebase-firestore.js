@@ -197,7 +197,7 @@
 										username: user.email,
 										name: user.displayName,
 										avatar: user.photoURL,
-										user // raw user object
+										info: user // raw user object
 									};
 
 									$.fire(mavo.element, "mv-login", { backend: this });
