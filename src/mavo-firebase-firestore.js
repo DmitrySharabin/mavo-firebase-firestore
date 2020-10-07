@@ -309,17 +309,24 @@
 					});
 			},
 
-			store: function(data, { path, format = this.format } = {}) {
+			store: async function(data, { path, format = this.format } = {}) {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
 				if (!navigator.onLine) {
 					setTimeout(() => this.mavo.inProgress = false, 300);
 				}
 
+				const serialized = typeof data === "string"? data : await format.stringify(data);
+
 				return this.db
 					.doc(this.filename)
-					.set(data)
-					.then(() => Promise.resolve())
+					.set(JSON.parse(serialized))
+					.then(() => {
+						this.mavo.setUnsavedChanges(false);
+						this.mavo.unsavedChanges = false;
+
+						return Promise.resolve();
+					})
 					.catch(error => {
 						Mavo.warn(this.mavo._("firebase-enable-auth"));
 						Mavo.warn(this.mavo._("firebase-check-security-rules"));
