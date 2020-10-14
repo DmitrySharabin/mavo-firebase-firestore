@@ -273,16 +273,35 @@
 			 * @param {*} o Arbitrary options
 			 */
 			put: function(serialized, path = this.path, o = {}) {
-				if (!this.storageBucketRef) {
-					Mavo.warn(this.mavo._("firebase-enable-storage"));
-
-					return Promise.reject(Error(`Firebase Storage: ${this.mavo._("firebase-enable-storage")}`));
+				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
+				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
+				if (!navigator.onLine) {
+					setTimeout(() => this.mavo.inProgress = false, 300);
 				}
 
-				return this.storageBucketRef
-					.child(path)
-					.put(serialized)
-					.then(snapshot => snapshot.ref.getDownloadURL());
+				if (o.isFile) {
+					if (!this.storageBucketRef) {
+						Mavo.warn(this.mavo._("firebase-enable-storage"));
+
+						return Promise.reject(Error(`Firebase Storage: ${this.mavo._("firebase-enable-storage")}`));
+					}
+
+					return this.storageBucketRef
+						.child(path)
+						.put(serialized)
+						.then(snapshot => snapshot.ref.getDownloadURL());
+				}
+
+				return this.db
+					.doc(this.filename)
+					.set(JSON.parse(serialized))
+					.then(() => Promise.resolve())
+					.catch(error => {
+						Mavo.warn(this.mavo._("firebase-enable-auth"));
+						Mavo.warn(this.mavo._("firebase-check-security-rules"));
+
+						this.mavo.error(`Firebase Auth: ${error.message}`);
+					});
 			},
 
 			/**
@@ -293,7 +312,7 @@
 			upload: function(file, path) {
 				path = `${this.storageName}/${path}`;
 
-				return this.put(file, path)
+				return this.put(file, path, {isFile: true})
 					.then(downloadURL => downloadURL)
 					.catch(error => {
 							if (error.code) {
@@ -306,32 +325,6 @@
 							}
 
 							this.mavo.error(`${error.message}`);
-					});
-			},
-
-			store: async function(data, { path, format = this.format } = {}) {
-				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
-				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
-				if (!navigator.onLine) {
-					setTimeout(() => this.mavo.inProgress = false, 300);
-				}
-
-				const serialized = typeof data === "string"? data : await format.stringify(data);
-
-				return this.db
-					.doc(this.filename)
-					.set(JSON.parse(serialized))
-					.then(() => {
-						this.mavo.setUnsavedChanges(false);
-						this.mavo.unsavedChanges = false;
-
-						return Promise.resolve();
-					})
-					.catch(error => {
-						Mavo.warn(this.mavo._("firebase-enable-auth"));
-						Mavo.warn(this.mavo._("firebase-check-security-rules"));
-
-						this.mavo.error(`Firebase Auth: ${error.message}`);
 					});
 			},
 
