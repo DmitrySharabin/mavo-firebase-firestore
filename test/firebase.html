@@ -173,7 +173,7 @@
 						result.textContent = Mavo.toJSON(r);
 
 						eval("var exp = " + expected.textContent);
-						return Test.equals(r, exp);
+						return JSON.stringify(r) === JSON.stringify(exp);
 					} catch (e) {
 						console.error(e);
 						result.textContent = "ERROR";
