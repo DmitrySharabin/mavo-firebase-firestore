@@ -297,8 +297,13 @@
 					.set(JSON.parse(serialized))
 					.then(() => Promise.resolve())
 					.catch(error => {
-						Mavo.warn(this.mavo._("firebase-enable-auth"));
-						Mavo.warn(this.mavo._("firebase-check-security-rules"));
+						if (this.features.auth) {
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+						}
+						else {
+							Mavo.warn(this.mavo._("firebase-enable-auth"));
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+						}
 
 						this.mavo.error(`Firebase Auth: ${error.message}`);
 					});
@@ -321,6 +326,7 @@
 								}
 								else {
 									Mavo.warn(this.mavo._("firebase-enable-auth"));
+									Mavo.warn(this.mavo._("firebase-check-security-rules"));
 								}
 							}
 
