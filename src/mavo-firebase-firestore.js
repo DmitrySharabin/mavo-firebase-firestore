@@ -74,7 +74,9 @@
 					features: {
 						auth: false,
 						storage: false,
-						realtime: false
+						realtime: false,
+						"all-can-write": false,
+						"all-can-edit": false
 					},
 					authProviders: _.getAuthProviders(mavo.element.getAttribute("mv-firebase-auth") || "", PROVIDERS),
 					provider: undefined
@@ -189,6 +191,19 @@
 						}
 
 						if (this.features.auth) {
+							const defaultPermissions = ["login"];
+
+							// By default, if the authentication feature is on, only signed-in users can edit and save the app's data.
+							// We want to let authors granularly override the default behavior,
+							// and we could enable the corresponding permissions
+							if (this.features["all-can-write"]) {
+								defaultPermissions.push("save");
+							}
+
+							if (this.features["all-can-edit"]) {
+								defaultPermissions.push("edit");
+							}
+
 							// Set an authentication state observer and get user data
 							this.app.auth().onAuthStateChanged(user => {
 								if (user) {
@@ -212,7 +227,7 @@
 
 									this.permissions
 										.off(["edit", "add", "delete", "save", "logout"])
-										.on("login");
+										.on(defaultPermissions);
 								}
 							});
 						}

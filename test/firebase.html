@@ -143,22 +143,22 @@
 				</thead>
 				<tr title="Default">
 					<td>&nbsp;</td>
-					<td>{ auth: false, storage: false, realtime: false }</td>
+					<td>{ auth: false, storage: false, realtime: false, "all-can-write": false, "all-can-edit": false }</td>
 				</tr>
 
 				<tr title="Absolute">
-					<td>auth realtime storage</td>
-					<td>{ auth: true, storage: true, realtime: true }</td>
+					<td>auth realtime storage all-can-write</td>
+					<td>{ auth: true, storage: true, realtime: true, "all-can-write": true, "all-can-edit": false }</td>
 				</tr>
 
 				<tr title="Absolute with duplicates">
 					<td>auth auth auth storage storage</td>
-					<td>{ auth: true, storage: true, realtime: false }</td>
+					<td>{ auth: true, storage: true, realtime: false, "all-can-write": false, "all-can-edit": false }</td>
 				</tr>
 
 				<tr title="Ignore nonexistent features">
 					<td>realtime foo storage</td>
-					<td>{ auth: false, storage: true, realtime: true }</td>
+					<td>{ auth: false, storage: true, realtime: true, "all-can-write": false, "all-can-edit": false }</td>
 				</tr>
 			</table>
 
@@ -168,7 +168,9 @@
 						const r = Mavo.Backend.Firebase.getOptions(test.textContent, {
 							auth: false,
 							storage: false,
-							realtime: false
+							realtime: false,
+							"all-can-write": false,
+							"all-can-edit": false
 						});
 						result.textContent = Mavo.toJSON(r);
 
@@ -370,6 +372,15 @@
 				</td>
 			</tr>
 		</table>
+	</section>
+
+	<section mv-app="allcaneditandsave" mv-storage="firebase://mavo-demos" mv-firebase="auth all-can-edit all-can-write">
+		<h1>All can edit and write data</h1>
+		<p>Should see the Edit and Save buttons on the Mavo bar.</p>
+	
+		<ul>
+			<li property>Yolo</li>
+		</ul>
 	</section>
 
 		<section
