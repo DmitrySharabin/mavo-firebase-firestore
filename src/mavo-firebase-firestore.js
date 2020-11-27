@@ -387,8 +387,6 @@
 				// Mandatory and very important! This determines when the backend is used
 				// value: The mv-storage/mv-source/mv-init value
 				test: function(value) {
-					value = value.trim();
-
 					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
 						|| /^firebase:\/\/.*/.test(value);
 				},
