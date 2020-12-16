@@ -270,10 +270,6 @@
 				}
 			},
 
-			get (url) {
-				return this.db.doc(url).get();
-			},
-
 			load () {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that loading was performed (and it really was).
@@ -284,7 +280,7 @@
 				}
 
 				return this.ready.then(() =>
-					this.get(this.filename)
+					this.db.doc(this.filename).get()
 						.then(doc => Promise.resolve(doc.data() || {}))
 						.catch(error => {
 							Mavo.warn(this.mavo._("firebase-check-security-rules"));
