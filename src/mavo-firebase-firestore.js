@@ -41,7 +41,7 @@
 						},
 						permission: "login",
 						condition: function() {
-							return !!mavo.primaryBackend.projectId && mavo.primaryBackend.authProviders.includes(p);
+							return !!mavo.primaryBackend.project && mavo.primaryBackend.authProviders.includes(p);
 						}
 					};
 				});
@@ -49,7 +49,7 @@
 				// Hide the Login button if either of auth providers is specified
 				$.extend(Mavo.UI.Bar.controls.login, {
 					condition: function() {
-						return !!mavo.primaryBackend.projectId && !mavo.primaryBackend.authProviders.length;
+						return !!mavo.primaryBackend.project && !mavo.primaryBackend.authProviders.length;
 					}
 				});
 			}
@@ -62,15 +62,14 @@
 
 			id: "Firebase",
 
-			constructor: function(url, { mavo, format }) {
+			constructor: function(url, o) {
 				// Initialization code
 				this.permissions.on("read");
 
 				this.defaults = {
 					collection: "mavo-apps",
-					filename: mavo.id,
-					storageName:
-						mavo.element.getAttribute("mv-firebase-storage") || mavo.id,
+					filename: o.mavo.id,
+					storageName: o.storagename || o.mavo.element.getAttribute("mv-firebase-storage") || o.mavo.id,
 					features: {
 						auth: false,
 						storage: false,
@@ -78,16 +77,15 @@
 						"all-can-write": false,
 						"all-can-edit": false
 					},
-					authProviders: _.getAuthProviders(mavo.element.getAttribute("mv-firebase-auth") || "", PROVIDERS),
+					authProviders: _.getAuthProviders(o.providers || o.mavo.element.getAttribute("mv-firebase-auth") || "", PROVIDERS),
 					provider: undefined
 				};
 
 				$.extend(this, this.defaults);
 
 				// Which backend features should we support?
-				const template = mavo.element.getAttribute("mv-firebase") || "";
-
-				this.features = _.getOptions(template, this.features);
+				const template = o.options || o.mavo.element.getAttribute("mv-firebase") || "";
+				this.features = _.getOptions(template, this.defaults.features);
 
 				// If either of the auth providers is specified, we must enable the auth feature
 				if (this.authProviders.length) {
@@ -134,24 +132,30 @@
 						// Get the config info from the attribute value
 						$.extend(this, _.parseSource(this.source, this.defaults));
 
+						// If an author provided backend metadata, use them
+						// since they have higher priority
+						this.project = o.project ?? this.project;
+						this.collection = o.collection ?? this.collection;
+						this.filename = o.filename ?? this.filename;
+
 						// The app's Firebase configuration
 						const config = {
-							apiKey: mavo.element.getAttribute("mv-firebase-key"),
-							databaseURL: `https://${this.projectId}.firebaseio.com`,
-							projectId: this.projectId,
-							authDomain: `${this.projectId}.firebaseapp.com`,
-							storageBucket: `${this.projectId}.appspot.com`
+							apiKey: this.key ?? o.mavo.element.getAttribute("mv-firebase-key"),
+							databaseURL: `https://${this.project}.firebaseio.com`,
+							projectId: this.project,
+							authDomain: `${this.project}.firebaseapp.com`,
+							storageBucket: `${this.project}.appspot.com`
 						};
 
 						// Initialize Cloud Firestore through Firebase
-						// We want all mavo apps with the same projectId share the same instance of Firebase app
-						// If there is no previously created Firebase app with the specified projectId, create one
+						// We want all mavo apps with the same project ID share the same instance of Firebase app
+						// If there is no previously created Firebase app with the specified project ID, create one
 						if (!firebase.apps.length) {
 							this.app = firebase.initializeApp(config);
 						}
 						else {
-							this.app = firebase.apps.find(app => app.options.projectId === this.projectId)
-								|| firebase.initializeApp(config, this.projectId);
+							this.app = firebase.apps.find(app => app.options.projectId === this.project)
+								|| firebase.initializeApp(config, this.project);
 						}
 
 						// To allow offline persistence, we MUST enable it foremost
@@ -176,7 +180,7 @@
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
 								doc => _.updatesHandler(doc, mavo),
-								error => mavo.error(`Firebase Realtime: ${error.message}`)
+								error => o.mavo.error(`Firebase Realtime: ${error.message}`)
 							);
 						}
 						else if (this.unsubscribe) {
@@ -215,7 +219,7 @@
 										info: user // raw user object
 									};
 
-									$.fire(mavo.element, "mv-login", { backend: this });
+									$.fire(o.mavo.element, "mv-login", { backend: this });
 
 									this.permissions.off("login").on(["edit", "save", "logout"]);
 								}
@@ -223,7 +227,7 @@
 									// User is signed out
 									this.user = null;
 
-									$.fire(mavo.element, "mv-logout", { backend: this });
+									$.fire(o.mavo.element, "mv-logout", { backend: this });
 
 									this.permissions
 										.off(["edit", "add", "delete", "save", "logout"])
@@ -240,6 +244,12 @@
 				this.super.update.call(this, url, o);
 
 				$.extend(this, _.parseSource(this.source, this.defaults));
+
+				// If an author provided backend metadata, use them
+				// since they have higher priority
+				this.project = o.project ?? this.project;
+				this.collection = o.collection ?? this.collection;
+				this.filename = o.filename ?? this.filename;
 
 				if (this.app) {
 					this.db = this.app.firestore().collection(this.collection);
@@ -398,7 +408,7 @@
 					if (/^https:\/\/.*\.firebaseio\.com\/?/.test(source)) {
 						const url = new URL(source);
 
-						ret.projectId = url.hostname.split(".").shift();
+						ret.project = url.hostname.split(".").shift();
 						source = url.pathname.slice(1);
 					}
 					else {
@@ -408,16 +418,16 @@
 					if (source.indexOf("/") > -1) {
 						const parts = source.split("/");
 
-						ret.projectId = ret.projectId || parts.shift();
+						ret.project = ret.project || parts.shift();
 
-						// If source without projectId has an odd number of parts,
+						// If source without project ID has an odd number of parts,
 						// an app author specified only collection, so we should use the default filename.
 						// Otherwise, we have both: collection and filename
 						ret.filename = parts.length % 2 ? defaults.filename : parts.pop();
 						ret.collection = parts.join("/");
 					}
 					else {
-						ret.projectId = ret.projectId || source;
+						ret.project = ret.project || source;
 						ret.collection = defaults.collection;
 						ret.filename = defaults.filename;
 					}

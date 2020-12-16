@@ -34,7 +34,7 @@
 				<tr>
 					<td>firebase://mavo-demos</td>
 					<td>{
-							projectId: "mavo-demos",
+							project: "mavo-demos",
 							collection: "mavo-apps",
 							filename: "countries"
 						}
@@ -44,7 +44,7 @@
 				<tr>
 					<td>firebase://d12n/mv-app/people</td>
 					<td>{
-						projectId: "d12n",
+						project: "d12n",
 						filename: "people",
 						collection: "mv-app"
 					}
@@ -54,7 +54,7 @@
 				<tr>
 					<td>firebase://mavo-demos/mv-app/collection/subcollection/people</td>
 					<td>{
-						projectId: "mavo-demos",
+						project: "mavo-demos",
 						filename: "people",
 						collection: "mv-app/collection/subcollection"
 					}
@@ -64,7 +64,7 @@
 				<tr>
 					<td>https://mavo-demos.firebaseio.com</td>
 					<td>{
-							projectId: "mavo-demos",
+							project: "mavo-demos",
 							collection: "mavo-apps",
 							filename: "countries"
 						}
@@ -74,7 +74,7 @@
 				<tr>
 					<td>https://d12n.firebaseio.com/mv-app/people</td>
 					<td>{
-						projectId: "d12n",
+						project: "d12n",
 						filename: "people",
 						collection: "mv-app"
 					}
@@ -84,7 +84,7 @@
 				<tr>
 					<td>https://mavo-demos.firebaseio.com/mv-app/collection/subcollection/people</td>
 					<td>{
-						projectId: "mavo-demos",
+						project: "mavo-demos",
 						filename: "people",
 						collection: "mv-app/collection/subcollection"
 					}
@@ -94,7 +94,7 @@
 				<tr title="Rename collection">
 					<td>firebase://d12n/mv-app</td>
 					<td>{
-						projectId: "d12n",
+						project: "d12n",
 						filename: "countries",
 						collection: "mv-app"
 					}
@@ -104,7 +104,7 @@
 				<tr title="Specify only collection">
 					<td>firebase://d12n/mv-app/collection/subcollection</td>
 					<td>{
-						projectId: "d12n",
+						project: "d12n",
 						filename: "countries",
 						collection: "mv-app/collection/subcollection"
 					}
@@ -262,7 +262,9 @@
 
 		<section
 			mv-app="firebasetest"
-			mv-storage="https://mavo-demos.firebaseio.com/mavo-apps/countries"
+			mv-storage="https://mavo-demos.firebaseio.com/nonexistentCollection/nonexistentDoc"
+			mv-storage-collection="mavo-apps"
+			mv-storage-filename="countries"
 		>
 			<h1>Basic</h1>
 
@@ -289,7 +291,8 @@
 
 		<section
 			mv-app="dynamicfilename"
-			mv-storage="firebase://mavo-demos/mavo-apps/[if(flip, 'countries', 'people')]"
+			mv-storage="firebase://mavo-demos/mavo-apps"
+			mv-storage-filename="[if(flip, 'countries', 'people')]"
 		>
 			<h1>Dynamic Filename</h1>
 
@@ -318,7 +321,10 @@
 
 		<section
 			mv-app="dynamiccollection"
-			mv-storage="firebase://mavo-demos/[if(flip, 'mavo-apps/countries', 'mavo-apps/collection/subcollection/countries')]"
+			mv-storage="firebase://"
+			mv-storage-project="mavo-demos"
+			mv-storage-collection="[if(flip, 'mavo-apps', 'mavo-apps/collection/subcollection')]"
+			mv-storage-filename="countries"
 		>
 			<h1>Dynamic Collection</h1>
 
@@ -374,10 +380,10 @@
 		</table>
 	</section>
 
-	<section mv-app="allcaneditandsave" mv-storage="firebase://mavo-demos" mv-firebase="auth all-can-edit all-can-write">
+	<section mv-app="allcaneditandsave" mv-storage="firebase://mavo-demos" mv-storage-options="all-can-edit all-can-write">
 		<h1>All can edit and write data</h1>
 		<p>Should see the Edit and Save buttons on the Mavo bar.</p>
-	
+
 		<ul>
 			<li property>Yolo</li>
 		</ul>
@@ -386,7 +392,7 @@
 		<section
 			mv-app="firebaseupload"
 			mv-storage="firebase://mavo-demos/mavo-apps/countries"
-			mv-firebase="auth storage"
+			mv-storage-options="auth storage"
 		>
 			<h1>Firebase upload</h1>
 
