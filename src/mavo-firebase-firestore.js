@@ -5,7 +5,7 @@
  * @author Dmitry Sharabin and contributors
  * @version %%VERSION%%
  */
-(function($) {
+(function ($) {
 	"use strict";
 
 	const PROVIDERS = {
@@ -21,26 +21,29 @@
 		],
 
 		hooks: {
-			"init-start": function(mavo) {
+			"init-start": function (mavo) {
 				// Add buttons for auth providers to the Mavo bar
 				// Show them only if the Firebase backend is used and any auth provider is specified
 				Object.keys(PROVIDERS).forEach(p => {
 					const id = `firebase-auth-${p}`;
 
 					Mavo.UI.Bar.controls[id] = {
-						create: function(custom) {
+						create (custom) {
 							return custom || $.create("button", {
 								type: "button",
 								className: `mv-${id}`,
 								textContent: mavo._(id),
 							});
 						},
-						action: function() {
+
+						action () {
 							mavo.primaryBackend.provider = p;
 							mavo.primaryBackend.login(false);
 						},
+
 						permission: "login",
-						condition: function() {
+
+						condition () {
 							return !!mavo.primaryBackend.project && mavo.primaryBackend.authProviders.includes(p);
 						}
 					};
@@ -48,7 +51,7 @@
 
 				// Hide the Login button if either of auth providers is specified
 				$.extend(Mavo.UI.Bar.controls.login, {
-					condition: function() {
+					condition () {
 						return !!mavo.primaryBackend.project && !mavo.primaryBackend.authProviders.length;
 					}
 				});
@@ -62,7 +65,7 @@
 
 			id: "Firebase",
 
-			constructor: function(url, o) {
+			constructor (url, o) {
 				// Initialization code
 				this.permissions.on("read");
 
@@ -240,7 +243,7 @@
 					});
 			},
 
-			update: function(url, o) {
+			update (url, o) {
 				this.super.update.call(this, url, o);
 
 				$.extend(this, _.parseSource(this.source, this.defaults));
@@ -267,11 +270,11 @@
 				}
 			},
 
-			get: function(url) {
+			get (url) {
 				return this.db.doc(url).get();
 			},
 
-			load: function() {
+			load () {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that loading was performed (and it really was).
 				// I am not sure whether we would face this issue without making other parts of an app offline-ready,
@@ -297,7 +300,7 @@
 			 * @param {*} path Path to store data
 			 * @param {*} o Arbitrary options
 			 */
-			put: function(serialized, path = this.path, o = {}) {
+			put (serialized, path = this.path, o = {}) {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
 				if (!navigator.onLine) {
@@ -339,7 +342,7 @@
 			 * @param {*} file File object to be uploaded
 			 * @param {*} path Relative path to store uploads (e.g. "images")
 			 */
-			upload: function(file, path) {
+			upload (file, path) {
 				path = `${this.storageName}/${path}`;
 
 				return this.put(file, path, {isFile: true})
@@ -361,7 +364,7 @@
 
 			// Takes care of authentication. If passive is true, only checks if
 			// the user is already logged in, but does not present any login UI
-			login: function(passive) {
+			login (passive) {
 				return this.ready.then(() => {
 					return new Promise((resolve, reject) => {
 						if (passive) {
@@ -384,7 +387,7 @@
 			},
 
 			// Log current user out
-			logout: function() {
+			logout () {
 				return this.app
 					.auth()
 					.signOut()
@@ -396,13 +399,13 @@
 			static: {
 				// Mandatory and very important! This determines when the backend is used
 				// value: The mv-storage/mv-source/mv-init value
-				test: function(value) {
+				test (value) {
 					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
 						|| /^firebase:\/\/.*/.test(value);
 				},
 
 				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
-				parseSource: function(source, defaults = {}) {
+				parseSource (source, defaults = {}) {
 					const ret = {};
 
 					if (/^https:\/\/.*\.firebaseio\.com\/?/.test(source)) {
@@ -440,7 +443,7 @@
 				 * @param {String} template The value to parse or an empty string
 				 * @param {Object} defaults Default set of values
 				 */
-				getOptions: function(template, defaults) {
+				getOptions (template, defaults) {
 					const ret = defaults;
 
 					const all = Object.keys(defaults);
@@ -467,7 +470,7 @@
 				 * @param {Object} snapshot A document snapshot
 				 * @param {Object} mavo Mavo instance
 				 */
-				updatesHandler: function(snapshot, mavo) {
+				updatesHandler (snapshot, mavo) {
 					const source = snapshot.metadata.hasPendingWrites
 						? "Local"
 						: "Server";
@@ -489,7 +492,7 @@
 				 * @param {String} template The value to parse or an empty string
 				 * @param {Object} defaults Default set of auth providers
 				 */
-				getAuthProviders: function(template, defaults) {
+				getAuthProviders (template, defaults) {
 					const all = Object.keys(defaults);
 
 					if (template = template?.trim()) {
@@ -512,7 +515,7 @@
 				 * Build an instance of the specified provider object
 				 * @param {String} provider An auth provider name
 				 */
-				buildProvider: function(provider) {
+				buildProvider (provider) {
 					// Fallback to Google
 					provider = provider || "google";
 
