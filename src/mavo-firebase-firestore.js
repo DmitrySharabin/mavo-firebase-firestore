@@ -270,7 +270,7 @@
 				}
 			},
 
-			load () {
+			async load () {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that loading was performed (and it really was).
 				// I am not sure whether we would face this issue without making other parts of an app offline-ready,
@@ -279,15 +279,19 @@
 					setTimeout(() => this.mavo.inProgress = false, 300);
 				}
 
-				return this.ready.then(() =>
-					this.db.doc(this.filename).get()
-						.then(doc => Promise.resolve(doc.data() || {}))
-						.catch(error => {
-							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+				await this.ready;
 
-							this.mavo.error(`Firebase Load Data: ${error.message}`);
-						})
-				);
+				try {
+					const doc = await this.db.doc(this.filename).get();
+
+					return doc.data() || {};
+				}
+				catch (error) {
+					Mavo.warn(this.mavo._("firebase-check-security-rules"));
+					this.mavo.error(`Firebase Load Data: ${error.message}`);
+
+					return null;
+				}
 			},
 
 			/**
@@ -338,47 +342,52 @@
 			 * @param {*} file File object to be uploaded
 			 * @param {*} path Relative path to store uploads (e.g. "images")
 			 */
-			upload (file, path) {
+			async upload (file, path) {
 				path = `${this.storageName}/${path}`;
 
-				return this.put(file, path, {isFile: true})
-					.then(downloadURL => downloadURL)
-					.catch(error => {
-							if (error.code) {
-								if (this.features.auth) {
-									Mavo.warn(this.mavo._("firebase-check-security-rules"));
-								}
-								else {
-									Mavo.warn(this.mavo._("firebase-enable-auth"));
-									Mavo.warn(this.mavo._("firebase-check-security-rules"));
-								}
-							}
+				try {
+					const url = await this.put(file, path, {isFile: true});
 
-							this.mavo.error(`${error.message}`);
-					});
+					return url;
+				}
+				catch (error) {
+					if (error.code) {
+						if (this.features.auth) {
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+						}
+						else {
+							Mavo.warn(this.mavo._("firebase-enable-auth"));
+							Mavo.warn(this.mavo._("firebase-check-security-rules"));
+						}
+					}
+
+					this.mavo.error(`${error.message}`);
+
+					return null;
+				}
 			},
 
 			// Takes care of authentication. If passive is true, only checks if
 			// the user is already logged in, but does not present any login UI
-			login (passive) {
-				return this.ready.then(() => {
-					return new Promise((resolve, reject) => {
-						if (passive) {
-							resolve(this.user);
-						}
-						else {
-							// Apply the default browser preference
-							firebase.auth().useDeviceLanguage();
+			async login (passive) {
+				await this.ready;
 
-							this.app
-								.auth()
-								.signInWithPopup(_.buildProvider(this.provider))
-								.catch(error => {
-									this.mavo.error(`Firebase Auth: ${error.message}`);
-									reject(error);
-								});
-						}
-					});
+				return new Promise((resolve, reject) => {
+					if (passive) {
+						resolve(this.user);
+					}
+					else {
+						// Apply the default browser preference
+						firebase.auth().useDeviceLanguage();
+
+						this.app
+							.auth()
+							.signInWithPopup(_.buildProvider(this.provider))
+							.catch(error => {
+								this.mavo.error(`Firebase Auth: ${error.message}`);
+								reject(error);
+							});
+					}
 				});
 			},
 
