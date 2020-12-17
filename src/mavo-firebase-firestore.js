@@ -110,25 +110,25 @@
 				this.ready =
 					// First of all, we need to download the Firebase core file
 					$.load(
-						"https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"
+						"https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"
 					).then(async () => {
 						// Then download the other parts if needed
 						await Promise.all([
 							// Cloud Firestore
 							$.load(
-								"https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"
+								"https://www.gstatic.com/firebasejs/8.2.0/firebase-firestore.js"
 							),
 
 							// Cloud Storage
 							$.include(
 								!this.features.storage,
-								"https://www.gstatic.com/firebasejs/7.8.2/firebase-storage.js"
+								"https://www.gstatic.com/firebasejs/8.2.0/firebase-storage.js"
 							),
 
 							// Authentication
 							$.include(
 								!this.features.auth,
-								"https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"
+								"https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"
 							)
 						]);
 
@@ -161,20 +161,19 @@
 								|| firebase.initializeApp(config, this.project);
 						}
 
-						// To allow offline persistence, we MUST enable it foremost
+						// To allow offline persistence, we MUST enable it foremost and only once
 						// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
-						if (!this.app.firestore()._persistenceKey) {
-							// Enable offline persistence only once per Firebase app
-							this.app.firestore().enablePersistence({ synchronizeTabs: true })
-								.catch(error => {
-									if (error.code === "unimplemented") {
-										// The current browser does not support all of the
-										// features required to enable persistence
-										Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
+						try {
+							this.app.firestore().enablePersistence({ synchronizeTabs: true });
+						}
+						catch (error) {
+							if (error.code === "unimplemented") {
+								// The current browser does not support all of the
+								// features required to enable persistence
+								Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
 
-										this.mavo.error(`Firebase Offline: ${error.message}`);
-									}
-								});
+								this.mavo.error(`Firebase Offline: ${error.message}`);
+							}
 						}
 
 						this.db = this.app.firestore().collection(this.collection);
