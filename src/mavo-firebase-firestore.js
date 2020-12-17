@@ -72,7 +72,7 @@
 				this.defaults = {
 					collection: "mavo-apps",
 					filename: o.mavo.id,
-					storageName: o.storagename || o.mavo.element.getAttribute("mv-firebase-storage") || o.mavo.id,
+					bucketName: o.bucketname || o.mavo.element.getAttribute("mv-firebase-storage") || o.mavo.id,
 					features: {
 						auth: false,
 						storage: false,
@@ -342,7 +342,7 @@
 			 * @param {*} path Relative path to store uploads (e.g. "images")
 			 */
 			async upload (file, path) {
-				path = `${this.storageName}/${path}`;
+				path = `${this.bucketName}/${path}`;
 
 				try {
 					const url = await this.put(file, path, {isFile: true});
