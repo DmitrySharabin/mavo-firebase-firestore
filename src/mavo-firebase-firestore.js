@@ -517,13 +517,10 @@
 				},
 
 				/**
-				 * Build an instance of the specified provider object
+				 * Build an instance of the specified provider object. Fallback to Google
 				 * @param {String} provider An auth provider name
 				 */
-				buildProvider (provider) {
-					// Fallback to Google
-					provider = provider || "google";
-
+				buildProvider (provider = "google") {
 					// Make provider name title-cased
 					provider = provider.charAt(0).toUpperCase() + provider.slice(1);
 
