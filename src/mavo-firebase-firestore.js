@@ -530,8 +530,8 @@
 	);
 
 	Mavo.Locale.register("en", {
-		"firebase-enable-auth": "You might need to enable authorization in your app. To do so, add mv-firebase=\"auth\" to the Mavo root.",
-		"firebase-enable-storage": "It seems your app does not support uploads. To enable uploads, add mv-firebase=\"storage\" to the Mavo root.",
+		"firebase-enable-auth": "You might need to enable authorization in your app. To do so, add mv-storage-options=\"auth\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.",
+		"firebase-enable-storage": "It seems your app does not support uploads. To enable uploads, add mv-storage-options=\"storage\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.",
 		"firebase-check-security-rules": "Please check the security rules for your app. They might be inappropriately set. For details, see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.",
 		"firebase-offline-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.",
 		"firebase-auth-google": "Google",
