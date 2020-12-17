@@ -182,7 +182,7 @@
 						if (this.features.realtime) {
 							// Get realtime updates
 							this.unsubscribe = this.db.doc(this.filename).onSnapshot(
-								doc => _.updatesHandler(doc, mavo),
+								doc => _.updatesHandler(doc, o.mavo),
 								error => o.mavo.error(`Firebase Realtime: ${error.message}`)
 							);
 						}
