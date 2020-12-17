@@ -205,34 +205,36 @@ Cloud Storage for Firebase lets you upload and share user generated content, suc
 
 ## Setup Mavo application
 
+**Note**: In all the following examples, instead of `mv-storage`, you can also use other *backend types*: `mv-source`, `mv-init`, and `mv-uploads`.
+
 Set the following attributes on the Mavo root element (the one with the `mv-app` attribute):
 
-| Attribute         | Value                                                                                                                           | Example                                                                                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `mv-storage`      | `firebase://projectId`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) <br />**Note**: `firebase://` is mandatory. | `mv-storage="firebase://mavo-demos"`. <br />**Note**: You can also use this value in other attributes: `mv-source`, `mv-init`, and `mv-uploads`. |
-| `mv-firebase-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))                                                          | `mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"`                                                                                      |
+| Attribute        | Value                                                                                                                           | Example                                                    |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| `mv-storage`     | `firebase://projectId`<br />(see [Step 3](#step-3-register-your-app-with-firebase)) <br />**Note**: `firebase://` is mandatory. | `mv-storage="firebase://mavo-demos"`.                      |
+| `mv-storage-key` | `apiKey`<br /> (see [Step 3](#step-3-register-your-app-with-firebase))                                                          | `mv-storage-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"` |
 
 **Note**: The **Firebase** backend lets you have multiple Mavo applications in one Firebase project if they have **different names**. That means you can use the `projectId` and `apiKey` values multiple times.
 
 ### Customization
 
-By default, the **Firebase** backend doesn't enable authentication (`auth`) and storing an end-user's files (`storage`) and doesn't load the corresponding JavaScript files implementing these features. You can enable either of these features or both by adding the `mv-firebase` attribute to the Mavo root. For example: `mv-firebase="auth"` enables authentication, `mv-firebase="storage"` let end-users upload their files, and `mv-firebase="auth storage"` enables both these features (see [example](#demo) below).
+By default, the **Firebase** backend doesn't enable authentication (`auth`) and storing an end-user's files (`storage`) and doesn't load the corresponding JavaScript files implementing these features. You can enable either of these features or both by adding the `mv-storage-options` attribute to the Mavo root. For example: `mv-storage-options="auth"` enables authentication, `mv-storage-options="storage"` let end-users upload their files, and `mv-storage-options="auth storage"` enables both these features (see [example](#demo) below).
 
-**Note**: Keep in mind that by default, if the authentication feature is on, **only signed-in users can edit and save the app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). To override the default behavior, add `all-can-edit` and/or `all-can-write` to the `mv-firebase` attribute value to enable the corresponding feature.
+**Note**: Keep in mind that by default, if the authentication feature is on, **only signed-in users can edit and save the app's data**, regardless of the security rules set for your app in the [Firebase console](https://console.firebase.google.com/). To override the default behavior, add `all-can-edit` and/or `all-can-write` to the `mv-storage-options` attribute value to enable the corresponding feature.
 
-By default, the **Firebase** backend stores data in the `mavo-apps` collection in a file whose name matches the name of a Mavo app. You can change it by specifying the name of the collection (and a path to it) and the name of the corresponding file after the `projectId`. The `projectId`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="firebase://projectId/path/to/collection/filename"`. You can also leave the default filename and specify only the collection, like so: `mv-storage="firebase://projectId/path/to/collection"`.
+By default, the **Firebase** backend stores data in the `mavo-apps` collection in a document whose name matches the name of a Mavo app. You can change it by specifying the name of the collection (and a path to it) and the name of the corresponding document after the `projectId`. The `projectId`, the collection name, and the filename must be divided by forward slash, like so: `mv-storage="firebase://projectId/path/to/collection/filename"`. You can also leave the default filename and specify only the collection, like so: `mv-storage="firebase://projectId/path/to/collection"`.
 
-**Note**: For now, there is no way to specify *only* the filename without specifying the collection. The only way to do that is to provide the full path, with the collection name (including the default one). See the [example](#demo) below.
+**Note**: You can specify values for either of these parameters (*projectId*, *collection*, and *filename*) via the `mv-storage-project`, `mv-storage-collection`, and `mv-storage-filename` attributes accordingly. See the [example](#demo) below.
 
-Need to get realtime updates? Add `realtime` to the `mv-firebase` attribute value. If there is no `mv-firebase` attribute, simply add `mv-firebase="realtime"` to the root of your app.
+Need to get realtime updates? Add `realtime` to the `mv-storage-options` attribute value. If there is no `mv-storage-options` attribute, simply add `mv-storage-options="realtime"` to the root of your app.
 
-The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder (including the full path) via the `mv-firebase-storage` attribute, like so: `mv-firebase-storage="folderName"`.
+The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder (including the full path) via the `mv-storage-bucketname` attribute, like so: `mv-storage-bucketname="folderName"`.
 
 ### Authentication with Firebase using Google, Facebook, Twitter, or GitHub accounts
 
-You can let your users authenticate with Firebase using their Google, Facebook, Twitter, or GitHub accounts by integrating the corresponding services into your app. To do so, add the `mv-firebase-auth` attribute to the root of your Mavo app. Its value is a space-separated set of names of services you want to enable. For example: `mv-firebase-auth="google twitter github"`.
+You can let your users authenticate with Firebase using their Google, Facebook, Twitter, or GitHub accounts by integrating the corresponding services into your app. To do so, add the `mv-storage-providers` attribute to the root of your Mavo app. Its value is a space-separated set of names of services you want to enable. For example: `mv-storage-providers="google twitter github"`.
 
-**Note**: If you use `mv-firebase-auth` there is no need to add `mv-firebase="auth"` to the root element.
+**Note**: If you use `mv-storage-providers` there is no need to add `mv-storage-options="auth"` to the root element.
 
 #### Authenticate Using Facebook
 
@@ -269,12 +271,12 @@ The plugin provides a set of phrases you can use, change, and localize. Here is 
 
 #### Messages in the console
 
-| id                               | Default Value                                                                                                                                                                  |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `firebase-enable-auth`           | You might need to enable authorization in your app. To do so, add mv-firebase=\"auth\" to the Mavo root.                                                                       |
-| `firebase-enable-storage`        | It seems your app does not support uploads. To enable uploads, add mv-firebase=\"storage\" to the Mavo  root.                                                                  |
-| `firebase-check-security-rules`  | Please check the security rules for your app. They might be inappropriately set. For details,   see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples. |
-| `firebase-offline-unimplemented` | The current browser does not support all of the features required to enable offline  persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.  |
+| id                               | Default Value                                                                                                                                                                                                              |
+|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `firebase-enable-auth`           | You might need to enable authorization in your app. To do so, add mv-storage-options=\"auth\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.     |
+| `firebase-enable-storage`        | It seems your app does not support uploads. To enable uploads, add mv-storage-options=\"storage\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads. |
+| `firebase-check-security-rules`  | Please check the security rules for your app. They might be inappropriately set. For details,   see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.                                             |
+| `firebase-offline-unimplemented` | The current browser does not support all of the features required to enable offline  persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.                                              |
 
 #### Mavo toolbar buttons
 
@@ -304,9 +306,12 @@ You can style Mavo toolbar buttons separately via classes.
 <main
     mv-app="myAwesomeApp"
     mv-plugins="firebase-firestore"
-    mv-storage="firebase://mavo-demos/mavo-apps/todo"
-    mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
-    mv-firebase="auth">
+    mv-storage="firebase://"
+    mv-storage-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
+    mv-storage-project="mavo-demos"
+    mv-storage-collection="mavo-apps"
+    mv-storage-filename="todo"
+    mv-storage-options="auth">
     <header>
         <h1>My tasks</h1>
         <p>
