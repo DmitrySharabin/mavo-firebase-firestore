@@ -403,13 +403,13 @@
 
 			static: {
 				// Mandatory and very important! This determines when the backend is used
-				// value: The mv-storage/mv-source/mv-init value
+				// value: The mv-storage/mv-source/mv-init/mv-uploads value
 				test (value) {
 					return /^https:\/\/.*\.firebaseio\.com\/?/.test(value) // Backward compatibility
 						|| /^firebase:\/\/.*/.test(value);
 				},
 
-				// Parse the mv-storage/mv-source/mv-init value, return project id, collection name, filename
+				// Parse the mv-storage/mv-source/mv-init/mv-uploads value, return project ID, collection name, filename
 				parseSource (source, defaults = {}) {
 					const ret = {};
 
