@@ -3,7 +3,7 @@
 /**
  * Firebase backend plugin for Mavo
  * @author Dmitry Sharabin and contributors
- * @version v0.3.5
+ * @version v0.3.6
  */
 (function ($) {
 	"use strict";
