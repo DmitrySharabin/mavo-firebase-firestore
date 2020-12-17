@@ -7,10 +7,10 @@
 		<link rel="stylesheet" href="style.css" />
 
 		<!-- Mavo -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.es5.min.js"></script>
+		<script src="https://get.mavo.io/mavo.js"></script>
 		<link
 			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/mavo/0.2.0/mavo.min.css"
+			href="https://get.mavo.io/mavo.css"
 		/>
 
 		<!-- Cloud Firestore plugin -->
@@ -19,8 +19,9 @@
 	<body
 		mv-app="portfolio"
 		mv-storage="firebase://mavo-demos"
-		mv-firebase-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
-		mv-firebase="auth storage"
+		mv-storage-key="AIzaSyDvZ3EBuhlvFm529vMPeU7dbqvdkjv9WQU"
+		mv-storage-options="auth storage"
+		mv-storage-bucketname="newPortfolio"
 	>
 		<header>
 			<h1>
