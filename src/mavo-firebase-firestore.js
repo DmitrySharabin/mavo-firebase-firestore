@@ -52,7 +52,7 @@
 				// Hide the Login button if either of auth providers is specified
 				$.extend(Mavo.UI.Bar.controls.login, {
 					condition () {
-						return !!mavo.primaryBackend.project && !mavo.primaryBackend.authProviders.length;
+						return Boolean(mavo.primaryBackend.project)? !mavo.primaryBackend.authProviders?.length : mavo.primaryBackend.permissions.login;
 					}
 				});
 			}
