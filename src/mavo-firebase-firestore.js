@@ -44,7 +44,7 @@
 						permission: "login",
 
 						condition () {
-							return !!mavo.primaryBackend.project && mavo.primaryBackend.authProviders.includes(p);
+							return Boolean(mavo.primaryBackend.project) && mavo.primaryBackend.authProviders?.includes?.(p);
 						}
 					};
 				});
