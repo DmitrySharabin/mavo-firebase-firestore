@@ -77,6 +77,7 @@
 						auth: false,
 						storage: false,
 						realtime: false,
+						"offline-persistence": false,
 						"all-can-write": false,
 						"all-can-edit": false
 					},
@@ -161,18 +162,20 @@
 								|| firebase.initializeApp(config, this.project);
 						}
 
-						// To allow offline persistence, we MUST enable it foremost and only once
-						// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
-						try {
-							this.app.firestore().enablePersistence({ synchronizeTabs: true });
-						}
-						catch (error) {
-							if (error.code === "unimplemented") {
-								// The current browser does not support all of the
-								// features required to enable persistence
-								Mavo.warn(this.mavo._("firebase-offline-unimplemented"));
+						if (this.features["offline-persistence"]) {
+							// To allow offline persistence, we MUST enable it foremost and only once
+							// Offline persistence is supported only by Chrome, Safari, and Firefox web browsers
+							try {
+								this.app.firestore().enablePersistence({ synchronizeTabs: true });
+							}
+							catch (error) {
+								if (error.code === "unimplemented") {
+									// The current browser does not support all of the
+									// features required to enable persistence
+									Mavo.warn(this.mavo._("firebase-offline-persistence-unimplemented"));
 
-								this.mavo.error(`Firebase Offline: ${error.message}`);
+									this.mavo.error(`Firebase Offline Persistence: ${error.message}`);
+								}
 							}
 						}
 
@@ -274,7 +277,7 @@
 				// So we hide the progress indicator after 300ms, and it seems that loading was performed (and it really was).
 				// I am not sure whether we would face this issue without making other parts of an app offline-ready,
 				// but in the sake of consistency and future use I add this code here
-				if (!navigator.onLine) {
+				if (this.features["offline-persistence"] && !navigator.onLine) {
 					setTimeout(() => this.mavo.inProgress = false, 300);
 				}
 
@@ -302,7 +305,7 @@
 			put (serialized, path = this.path, o = {}) {
 				// Since we support offline persistence, we don't want end-users to think an app is hung when we are offline.
 				// So we hide the progress indicator after 300ms, and it seems that saving was performed (and it really was)
-				if (!navigator.onLine) {
+				if (this.features["offline-persistence"] && !navigator.onLine) {
 					setTimeout(() => this.mavo.inProgress = false, 300);
 				}
 
@@ -533,7 +536,7 @@
 		"firebase-enable-auth": "You might need to enable authorization in your app. To do so, add mv-storage-options=\"auth\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.",
 		"firebase-enable-storage": "It seems your app does not support uploads. To enable uploads, add mv-storage-options=\"storage\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.",
 		"firebase-check-security-rules": "Please check the security rules for your app. They might be inappropriately set. For details, see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.",
-		"firebase-offline-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.",
+		"firebase-offline-persistence-unimplemented": "The current browser does not support all of the features required to enable offline persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.",
 		"firebase-auth-google": "Google",
 		"firebase-auth-facebook": "Facebook",
 		"firebase-auth-twitter": "Twitter",

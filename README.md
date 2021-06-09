@@ -228,6 +228,10 @@ By default, the **Firebase** backend stores data in the `mavo-apps` collection i
 
 Need to get realtime updates? Add `realtime` to the `mv-storage-options` attribute value. If there is no `mv-storage-options` attribute, simply add `mv-storage-options="realtime"` to the root of your app.
 
+The plugin supports offline data persistence. This feature caches a copy of the data that your app is using, so your app can access the data when the device is offline. When the device comes back online, the plugin synchronizes any local changes made by your app to the backend. To enable this feature add `offline-persistence` option to `mv-storage-options`.
+
+**Note:** Please keep in mind that if you enable both the realtime and the offline persistence features simultaneously (i.e., you specify `mv-storage-options="realtime offline-persistence"` in the root of your app), that might cause some issues with realtime updates if your app is opened *in more than one tab*. Changes made in the app in one tab won't be pushed to the app in the inactive tab.
+
 The files in the storage bucket are presented in a _hierarchical structure_, just like the file system on your local hard disk. Every app has its own folder (which name matches the Mavo app's name) for all its files. You can specify the name of that folder (including the full path) via the `mv-storage-bucketname` attribute, like so: `mv-storage-bucketname="folderName"`.
 
 ### Authentication with Firebase using Google, Facebook, Twitter, or GitHub accounts
@@ -276,7 +280,7 @@ The plugin provides a set of phrases you can use, change, and localize. Here is 
 | `firebase-enable-auth`           | You might need to enable authorization in your app. To do so, add mv-storage-options=\"auth\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads.     |
 | `firebase-enable-storage`        | It seems your app does not support uploads. To enable uploads, add mv-storage-options=\"storage\" to the Mavo root. Note: Instead of mv-storage, you can also use other backend types: mv-source, mv-init, and mv-uploads. |
 | `firebase-check-security-rules`  | Please check the security rules for your app. They might be inappropriately set. For details,   see https://plugins.mavo.io/plugin/firebase-firestore#security-rules-examples.                                             |
-| `firebase-offline-unimplemented` | The current browser does not support all of the features required to enable offline  persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.                                              |
+| `firebase-offline-persistence-unimplemented` | The current browser does not support all of the features required to enable offline  persistence. This feature is supported only by Chrome, Safari, and Firefox web browsers.                                              |
 
 #### Mavo toolbar buttons
 
