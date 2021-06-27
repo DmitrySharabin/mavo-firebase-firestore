@@ -1,6 +1,6 @@
 {
 	"name": "mavo-firebase-firestore",
-	"version": "0.3.8",
+	"version": "0.3.9",
 	"description": "Firebase backend plugin for Mavo. Store and sync app data in milliseconds. Store and serve files at Google scale. Authenticate users simply and securely. All the Google Firebase powers are at your fingertips.",
 	"repository": "https://github.com/DmitrySharabin/mavo-firebase-firestore.git",
 	"bugs": {
