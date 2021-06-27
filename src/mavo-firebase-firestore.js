@@ -15,6 +15,27 @@
 		"github": {}
 	};
 
+	// Deprecated attributes:
+	// deprecated -> new attribute, url for help
+	const DEPRECATED = {
+		"mv-firebase-key": {
+			attribute: "mv-storage-key",
+			url: "https://plugins.mavo.io/plugin/firebase-firestore#setup-mavo-application"
+		},
+		"mv-firebase-auth": {
+			attribute: "mv-storage-providers",
+			url: "https://plugins.mavo.io/plugin/firebase-firestore#authentication-with-firebase-using-google-facebook-twitter-or-github-accounts"
+		},
+		"mv-firebase": {
+			attribute: "mv-storage-options",
+			url: "https://plugins.mavo.io/plugin/firebase-firestore#customization"
+		},
+		"mv-firebase-storage": {
+			attribute: "mv-storage-bucketname",
+			url: "https://plugins.mavo.io/plugin/firebase-firestore#customization"
+		},
+	};
+
 	Mavo.Plugins.register("firebase-firestore", {
 		dependencies: [
 			"https://cdn.jsdelivr.net/gh/DmitrySharabin/mavo-firebase-firestore/mavo-firebase-firestore.css"
@@ -86,6 +107,16 @@
 				};
 
 				$.extend(this, this.defaults);
+
+				// Warn an author about deprecated attributes
+				for (const attribute in DEPRECATED) {
+					if (o.mavo.element.hasAttribute(attribute)) {
+						const newAttribute = DEPRECATED[attribute].attribute;
+						const url = DEPRECATED[attribute].url;
+
+						Mavo.warn(`@${attribute} is deprecated. Please use @${newAttribute} instead. For details, see ${url}.`);
+					}
+				}
 
 				// Which backend features should we support?
 				const template = o.options || o.mavo.element.getAttribute("mv-firebase") || "";
